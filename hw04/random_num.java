@@ -30,14 +30,16 @@ public class random_num{
         System.out.print("\n");*/
     }
     public String[] create_arr(){
-        /*for(int i=0;i<n;i++){
+        for(int i=0;i<n;i++){
+            System.out.print(A[i].length()+" : ");
             for(int j=0;j<A[i].length();j++){
                 System.out.print(A[i].charAt(j));
             }
             System.out.print("\n");
         }
-        System.out.print("\n");*/
-        return A;
+        System.out.print("\n");
+        String[] B = {"00000001111111","01"};
+        return B;
     }
     public static void main(String[] args){
         random_num ran = new random_num(10,10);

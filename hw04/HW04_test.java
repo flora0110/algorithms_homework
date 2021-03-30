@@ -2,7 +2,7 @@ public class HW04_test{
     public static void main(String[] args){
         //int A[]={5,7,8,8,1,3,4};
         //int A[]={4,5,1,3,4};
-        random_num ran = new random_num(10000,2000);
+        random_num ran = new random_num(100,10);
         String[] A=ran.create_arr();
         // int[] A = {4,4,5,7,8,8,0,1,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4};
         //System.out.println("--------------------------------");
@@ -11,10 +11,10 @@ public class HW04_test{
         HW04_4108056029_1 test1 = new HW04_4108056029_1();
         boolean[] ans=test1.one0k(A);
         long now =System.currentTimeMillis();
-        /*for(int i=0;i<ans.length;i++){
+        for(int i=0;i<ans.length;i++){
             System.out.print(ans[i]+" ");
         }
-        System.out.print("\n");*/
+        System.out.print("\n");
         System.out.println("test1 time:"+(now-start)/1000.0);
 
         /*start =System.currentTimeMillis();
@@ -36,5 +36,25 @@ public class HW04_test{
         }
         System.out.print("\n");*/
         System.out.println("test3 time:"+(now-start)/1000.0);
+
+        start =System.currentTimeMillis();
+        HW04_4108056029_4 test4 = new HW04_4108056029_4();
+        boolean[] ans4=test4.one0k(A);
+        now =System.currentTimeMillis();
+        for(int i=0;i<ans4.length;i++){
+            System.out.print(ans4[i]+" ");
+        }
+        System.out.print("\n");
+        System.out.println("test4 time:"+(now-start)/1000.0);
+
+        start =System.currentTimeMillis();
+        HW04_4108056029_5 test5 = new HW04_4108056029_5();
+        boolean[] ans5=test5.one0k(A);
+        now =System.currentTimeMillis();
+        for(int i=0;i<ans5.length;i++){
+            System.out.print(ans5[i]+" ");
+        }
+        System.out.print("\n");
+        System.out.println("test5 time:"+(now-start)/1000.0);
     }
 }
