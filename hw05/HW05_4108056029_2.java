@@ -29,19 +29,14 @@ public class HW05_4108056029_2 extends LLK{
                 else{
                     key[i][j]=(unit_x+unit_y)*100+143;
                 }
-                System.out.println("i " +i+" key: "+key[i][j]);
+
             }
         }
         for(i=0;i<n ;i++){
-            for(j=0;j<i;j++){
-                if(hashcontain(i,key[j][i])) return true;
-                else buckets[i][count]=key[j][i];
-                System.out.println("buckets["+i+"]["+count+"]"+buckets[i][count]);
-            }
             for(j=i+1;j<n ;j++){
                 if(hashcontain(i,key[i][j])) return true;
                 else buckets[i][count]=key[i][j];
-                System.out.println("buckets["+i+"]["+count+"]"+buckets[i][count]);
+
             }
         }
         return false;
@@ -49,7 +44,6 @@ public class HW05_4108056029_2 extends LLK{
     public boolean hashcontain(int now,double key){
         int hash = (int) key*(b/284);
         for(int i=0;i<n;i++){
-            System.out.println("in hashcontain      buckets["+now+"]["+((hash+i)%b)+"]"+buckets[now][(hash+i)%b]);
             if(buckets[now][(hash + i)%b]==key) return true;
             else if(buckets[now][(hash + i)%b]==0) {count=(hash+i)%b;return false;}
         }
@@ -57,7 +51,7 @@ public class HW05_4108056029_2 extends LLK{
     }
     public static void main(String[] args){
         HW05_4108056029_2 test = new HW05_4108056029_2();
-        int[][] arr = {{1,1},{2,2},{3,2},{4,1},{8,-1}};
+        int[][] arr = {{1,1},{2,2},{3,2},{4,1}};
         System.out.println(test.checkLLK(arr));
     }
 }

@@ -35,9 +35,9 @@ public class HW05_4108056029_1 extends LLK{
         }
         int now;
         for(i=0;i<n && !ans;i++){
-            for(j=0;j<n && !ans;j++){
+            for(j=i+1;j<n && !ans;j++){
                 //System.out.println("i : "+i+" j :"+j);
-                if(i==j) {continue;}
+
                 now=(int)code[i][j]*(n/283);
                 buckets[now][count[i][now]] = code[i][j];
                 //System.out.println("i : "+i+" j :"+j+" code: "+code[i][j]);
@@ -54,7 +54,7 @@ public class HW05_4108056029_1 extends LLK{
     }
     public static void main(String[] args){
         HW05_4108056029_1 test = new HW05_4108056029_1();
-        int[][] arr = {{1,1},{2,2},{3,3}};
+        int[][] arr = {{1,1},{2,2},{3,2},{4,1}};
         System.out.println(test.checkLLK(arr));
     }
 }
