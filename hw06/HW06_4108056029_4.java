@@ -9,7 +9,6 @@ public class HW06_4108056029_4 extends Dessert_Desert{
         int i,j,k,temp,c=0,new_blen;
         int[] dif;
         for(i=0;i<n;i++){
-            show(inputArr[i]);
             len = inputArr[i].length;
             dif = new int[len];
             A = new int[len][2];
@@ -18,13 +17,9 @@ public class HW06_4108056029_4 extends Dessert_Desert{
                 A[j][0] = inputArr[i][j];
                 A[j][1] = j;
             }
-            sort(0,len-1);
-            show_2d(A);
             for(j=0;j<len;j++){
                 dif[j] = A[j][1] - j;
             }
-            System.out.println("dif: ");
-            show(dif);
             for(j=0;j<len;j++){
                 if(dif[j]>check[j][0]){
                     new_blen = dif[j]+check[j][1];
@@ -35,7 +30,6 @@ public class HW06_4108056029_4 extends Dessert_Desert{
                 }
                 if(check[j][1] == check[j][0]) ans[i]++;
             }
-            System.out.println("ans: "+ans[i]);
         }
         return ans;
     }
@@ -49,57 +43,9 @@ public class HW06_4108056029_4 extends Dessert_Desert{
                         {1, 2, 3},
                         {5, 4, 3, 2, 1},
                         {2, 1, 3, 2}};
-        test.show(arr[0]);
-        test.show(arr[1]);
         test.maxBlocks(arr);
     }
-    /*public void sort(int lo,int hi){
-        if(hi<=lo) return;
-        int j=partition(lo,hi);
-        sort(lo,j-1);
-        sort(j+1,hi);
-    }
-    public int partition(int lo,int hi){
-        int i=lo,j=hi+1;
-        int[] temp;
-        while(true){
-            while(A[++i][0]<A[lo][0]){
-                if(i==hi) break;
-
-            }
-            while(A[lo][0]<A[--j][0]){
-                if(j==lo) break;
-            }
-            if(i>=j) break;
-            temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
-        }
-
-        temp = A[lo];
-        A[lo] = A[j];
-        A[j] = temp;
-        return j;
-    }*/
-    public void show(int[] dif){
-        //System.out.println();
-        for(int i=0;i<dif.length;i++){
-            System.out.print(dif[i]+" ");
-        }
-        System.out.println();
-    }
-    public void show_2d(int[][] a){
-        //System.out.println();
-        for(int i=0;i<a.length;i++){
-            System.out.print(a[i][0]+" ");
-        }
-        System.out.println();
-        for(int i=0;i<a.length;i++){
-            System.out.print(a[i][1]+" ");
-        }
-        System.out.println();
-    }
-    void merge(int l, int m, int r){
+    public void merge(int l, int m, int r){
         // Find sizes of two subarrays to be merged
         int n1 = m - l + 1;
         int n2 = r - m;
@@ -151,7 +97,6 @@ public class HW06_4108056029_4 extends Dessert_Desert{
         if (l < r) {
             // Find the middle point
             int m =l+ ((r-l)>>1);
-            //System.out.println("l,m,r "+l+" "+m+" "+r);
             // Sort first and second halves
             sort(l, m);
             sort(m + 1, r);

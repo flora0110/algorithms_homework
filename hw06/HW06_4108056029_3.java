@@ -14,24 +14,31 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                 dif[j]=1;
                 for(k=j;k>0;k--){
                     if(inputArr[i][k]<inputArr[i][k-1]){
-                        //System.out.println("change "+k+" "+(k-1));
                         temp = inputArr[i][k];
                         inputArr[i][k] = inputArr[i][k-1];
                         inputArr[i][k-1] = temp;
-                        //System.out.println("set "+(k-1)+" to "+(j-k+2));
+                        dif[k]=j-k+2;
                         dif[k-1]=j-k+2;
                     }
                     else break;
                 }
+                show(dif);
             }
-            show(dif);
             for(j=0;j<len;){
+                System.out.println("j= "+j);
                 ans[i]++;
                 j+=dif[j];
             }
-            System.out.println("ans "+i+" "+ans[i]);
+            System.out.println(ans[i]);
         }
         return ans;
+    }
+    public void show(int[] dif){
+        //System.out.println();
+        for(int i=0;i<dif.length;i++){
+            System.out.print(dif[i]+" ");
+        }
+        System.out.println();
     }
     public static void main(String[] args){
         HW06_4108056029_3 test = new HW06_4108056029_3();
@@ -41,14 +48,8 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                         {1, 3, 5, 7, 9},
                         {1, 2, 3},
                         {5, 4, 3, 2, 1},
-                        {2, 1, 3, 2}};
+                        {2, 1, 3, 2},
+                        {2,5,4,1,2}};
         test.maxBlocks(arr);
-    }
-    public void show(int[] dif){
-        //System.out.println();
-        for(int i=0;i<dif.length;i++){
-            System.out.print(dif[i]+" ");
-        }
-        System.out.println();
     }
 }
