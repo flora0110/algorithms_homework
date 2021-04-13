@@ -1,63 +1,30 @@
 public class HW06_4108056029_5 extends Dessert_Desert{
     int[][] inputArr;
     int len;//each array's length
-    public int max(int a,int b){
-        if(a>b) return a;
-        else {return b;}
-    }
     public int[] maxBlocks(int[][] inputArr){
         int n=inputArr.length;
         this.inputArr = inputArr;
         int[] ans = new int[n];
-        int i,j,k,temp;
-        int[] max;
-        int[] mark;
+        int i,j,max;
+        int[] min = new int[1000000];
         for(i=0;i<n;i++){
             len = inputArr[i].length;
-            max = new int[len];
-            mark = new int[len];
-            max[0] = inputArr[i][0];
-            mark[0] = 0;
-            for(j=1;j<len;j++){
-                //max[j]=max(max[j-1],inputArr[i][j]);
-                if(max[j-1]>inputArr[i][j]){
-                    mark[j] = mark[j-1];
-                    max[j] = max[j-1];
-                }
-                else{
-                    mark[j] = j;
-                    max[j] = inputArr[i][j];
-                }
-                for(k=j;k>=0;k--){
-                    if(inputArr[i][j]>=max[k]) break;
-                    else{
-                        max[k] = max[j];
-                        mark[k] = mark[j];
-                    }
-                }
-                /*System.out.println("mark ");
-                show(mark);
-                System.out.println("max ");*/
-                //show(max);
+            max = inputArr[i][0];
+            min[len-1] = inputArr[i][len-1];
+            for(j=len-2;j>=0;j--){
+                if(inputArr[i][j] < min[j+1]) min[j] = inputArr[i][j];
+                else min[j] = min[j+1];
             }
-            /*System.out.println("mark ");
-            show(mark);
-            System.out.println("max ");
-            show(max);*/
-            for(j=1;j<len;j++){
-                if(mark[j-1]!=mark[j]) ans[i]++;
+            for(j=0;j<len-1;j++){
+                if(inputArr[i][j]>max) max = inputArr[i][j];
+                if(max<=min[j+1]){
+                    ans[i]++;
+                }
             }
             ans[i]++;
             System.out.println(ans[i]);
         }
         return ans;
-    }
-    public void show(int[] dif){
-        //System.out.println();
-        for(int i=0;i<dif.length;i++){
-            System.out.print(dif[i]+" ");
-        }
-        System.out.println();
     }
     public static void main(String[] args){
         HW06_4108056029_5 test = new HW06_4108056029_5();
