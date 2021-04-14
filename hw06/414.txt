@@ -1,0 +1,17 @@
+_1 : error
+	max : int[]
+	compare : if else
+_2 : 3
+	arr = {{}}
+
+_3 : false
+	thread : 4
+	max : int
+	compare : if else
+_4 : 2
+	max : int[]
+	compare : max()
+
+_5 : 1
+	max : int
+	compare : if else
