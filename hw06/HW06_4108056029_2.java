@@ -53,13 +53,6 @@ public class HW06_4108056029_2 extends Dessert_Desert{
         System.out.println("test2 time:"+(now-start)/1000.0);
         return ans;
     }
-    public void show(int[] dif,int len){
-        //System.out.println();
-        for(int i=0;i<len;i++){
-            System.out.print(dif[i]+" ");
-        }
-        System.out.println();
-    }
     public static void main(String[] args){
         HW06_4108056029_2 test = new HW06_4108056029_2();
         int[][] arr = {

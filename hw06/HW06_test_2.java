@@ -9,6 +9,15 @@ public class HW06_test_2 {
                 new_input[i][j] = input[i%9][j];
             }
         }
+
+        /*int[][] new_input = new int[1][9000];
+        int k;
+        for(int i=0;i<9000;){
+            k=i;
+            for(int j=0;j<input[k%9].length && i<9000;j++){
+                new_input[0][i++] = input[k%9][j];
+            }
+        }*/
         int times = 5;
         long time_start=System.nanoTime();
         //long start =System.currentTimeMillis();
@@ -16,7 +25,13 @@ public class HW06_test_2 {
 		{
 			HW06_4108056029_2 test = new HW06_4108056029_2();
             int[] output = test.maxBlocks(new_input);
-
+            if(i<1){
+                System.out.print(i+1+"output:{" + output[0]);
+                for(int j = 1;j<12 ;j++){
+                    System.out.print("," + output[j]);
+                }
+                System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
+            }
 			/*//System.out.print(i+1+"output:{" + output[0]);
             for(int j = 1;j<output.length;j++){
                 System.out.print("," + output[j]);
@@ -34,6 +49,13 @@ public class HW06_test_2 {
 		{
 			HW06_4108056029_5 test = new HW06_4108056029_5();
             int[] output = test.maxBlocks(new_input);
+            if(i<1){
+                System.out.print(i+1+"output:{" + output[0]);
+                for(int j = 1;j<12 ;j++){
+                    System.out.print("," + output[j]);
+                }
+                System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
+            }
 			/*System.out.print(i+1+"output:{" + output[0]);
             for(int j = 1;j<output.length;j++){
                 System.out.print("," + output[j]);
@@ -49,21 +71,13 @@ public class HW06_test_2 {
 		{
 			HW06_4108056029_1 test = new HW06_4108056029_1();
             int[] output = test.maxBlocks(new_input);
-			/*System.out.print(i+1+"output:{" + output[0]);
-            for(int j = 1;j<output.length;j++){
-                System.out.print("," + output[j]);
+            if(i<1){
+                System.out.print(i+1+"output:{" + output[0]);
+                for(int j = 1;j<12 ;j++){
+                    System.out.print("," + output[j]);
+                }
+                System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
             }
-            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
-		}
-
-		System.out.println("time:"+(System.nanoTime()-time_start)/times);
-
-        time_start=System.nanoTime();
-
-		for(int i=0;i<times;i++)
-		{
-			HW06_4108056029_4 test = new HW06_4108056029_4();
-            int[] output = test.maxBlocks(new_input);
 			/*System.out.print(i+1+"output:{" + output[0]);
             for(int j = 1;j<output.length;j++){
                 System.out.print("," + output[j]);
@@ -79,16 +93,80 @@ public class HW06_test_2 {
 		{
 			HW06_4108056029_3 test = new HW06_4108056029_3();
             int[] output = test.maxBlocks(new_input);
-            /*if(i<2){
+            if(i<1){
                 System.out.print(i+1+"output:{" + output[0]);
                 for(int j = 1;j<12 ;j++){
                     System.out.print("," + output[j]);
                 }
                 System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
-            }*/
+            }
 		}
 
 		System.out.println("time:"+(System.nanoTime()-time_start)/times);
+
+        time_start=System.nanoTime();
+
+		for(int i=0;i<times;i++)
+		{
+			HW06_4108056029_4 test = new HW06_4108056029_4();
+            int[] output = test.maxBlocks(new_input);
+            if(i<1){
+                System.out.print(i+1+"output:{" + output[0]);
+                for(int j = 1;j<12 ;j++){
+                    System.out.print("," + output[j]);
+                }
+                System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
+            }
+			/*System.out.print(i+1+"output:{" + output[0]);
+            for(int j = 1;j<output.length;j++){
+                System.out.print("," + output[j]);
+            }
+            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
+		}
+
+		System.out.println("time:"+(System.nanoTime()-time_start)/times);
+
+
+
+
+
+        time_start=System.nanoTime();
+
+        for(int i=0;i<times;i++)
+		{
+			HW06_4108056029_1 test = new HW06_4108056029_1();
+            int[] output = test.maxBlocks(new_input);
+            if(i<1){
+                System.out.print(i+1+"output:{" + output[0]);
+                for(int j = 1;j<12 ;j++){
+                    System.out.print("," + output[j]);
+                }
+                System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}
+            }
+			/*System.out.print(i+1+"output:{" + output[0]);
+            for(int j = 1;j<output.length;j++){
+                System.out.print("," + output[j]);
+            }
+            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
+		}
+
+		System.out.println("time:"+(System.nanoTime()-time_start)/times);
+
+        time_start=System.nanoTime();
+
+		for(int i=0;i<times;i++)
+		{
+			HW06_4108056029_5 test = new HW06_4108056029_5();
+            int[] output = test.maxBlocks(new_input);
+			/*System.out.print(i+1+"output:{" + output[0]);
+            for(int j = 1;j<output.length;j++){
+                System.out.print("," + output[j]);
+            }
+            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
+		}
+
+		System.out.println("time:"+(System.nanoTime()-time_start)/times);
+
 
         time_start=System.nanoTime();
         //long start =System.currentTimeMillis();
@@ -108,35 +186,6 @@ public class HW06_test_2 {
 
 		System.out.println("time:"+(System.nanoTime()-time_start)/times);
 
-        time_start=System.nanoTime();
-
-		for(int i=0;i<times;i++)
-		{
-			HW06_4108056029_5 test = new HW06_4108056029_5();
-            int[] output = test.maxBlocks(new_input);
-			/*System.out.print(i+1+"output:{" + output[0]);
-            for(int j = 1;j<output.length;j++){
-                System.out.print("," + output[j]);
-            }
-            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
-		}
-
-		System.out.println("time:"+(System.nanoTime()-time_start)/times);
-
-        time_start=System.nanoTime();
-
-		for(int i=0;i<times;i++)
-		{
-			HW06_4108056029_1 test = new HW06_4108056029_1();
-            int[] output = test.maxBlocks(new_input);
-			/*System.out.print(i+1+"output:{" + output[0]);
-            for(int j = 1;j<output.length;j++){
-                System.out.print("," + output[j]);
-            }
-            System.out.println("}"); //ans:{11,4,15,11,36,8,5,41,18}*/
-		}
-
-		System.out.println("time:"+(System.nanoTime()-time_start)/times);
 
         time_start=System.nanoTime();
 

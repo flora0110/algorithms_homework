@@ -1,15 +1,15 @@
-_1 : 
+_1 :  new
 	max : int
-	compare : nax()
-_2 : 3
+	compare : max()
+_2 : 3 new way
 	arr = {{}}
 
-_3 : false
+_3 : false ok
 	thread : 4
 	max : int
-	compare : if else
-_4 : 2
-	max : int[]
+	compare : max()
+_4 :  new
+	thread : 8
 	compare : max()
 
 _5 : 1

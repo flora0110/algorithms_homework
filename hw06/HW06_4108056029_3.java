@@ -3,7 +3,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
     public int[] maxBlocks(int[][] inputArr){
         long start =System.currentTimeMillis();
 
-        int num_thread = 4,lgTNum=2;
+        int num_thread = 8,lgTNum=3;
         int n=inputArr.length;
         this.inputArr = inputArr;
         int[] ans = new int[n];
@@ -16,8 +16,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                 max = inputArr[i][0];
                 min[len-1] = inputArr[i][len-1];
                 for(j=len-2;j>=0;j--){
-                    if(inputArr[i][j] < min[j+1]) min[j] = inputArr[i][j];
-                    else min[j] = min[j+1];
+                    min[j] = Math.min(min[j+1],inputArr[i][j]);
                 }
                 for(j=0;j<len-1;j++){
                     if(inputArr[i][j]>max) max = inputArr[i][j];
@@ -25,6 +24,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                         ans[i]++;
                     }
                 }
+                ans[i]++;
             }
         }
         else{
@@ -41,8 +41,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                             max = inputArr[i][0];
                             min[len-1] = inputArr[i][len-1];
                             for(int j=len-2;j>=0;j--){
-                                if(inputArr[i][j] < min[j+1]) min[j] = inputArr[i][j];
-                                else min[j] = min[j+1];
+                                min[j] = Math.min(min[j+1],inputArr[i][j]);
                             }
                             for(int j=0;j<len-1;j++){
                                 if(inputArr[i][j]>max) max = inputArr[i][j];
@@ -68,8 +67,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                         max = inputArr[i][0];
                         min[len-1] = inputArr[i][len-1];
                         for(int j=len-2;j>=0;j--){
-                            if(inputArr[i][j] < min[j+1]) min[j] = inputArr[i][j];
-                            else min[j] = min[j+1];
+                            min[j] = Math.min(min[j+1],inputArr[i][j]);
                         }
                         for(int j=0;j<len-1;j++){
                             if(inputArr[i][j]>max) max = inputArr[i][j];
