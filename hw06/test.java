@@ -24,5 +24,9 @@ public class test{
             System.out.print(a[i][1]+" ");
         }
         System.out.println();
+        int i=0;
+        for(;i<0;i++){
+        }
+        System.out.println("j="+i);
     }
 }

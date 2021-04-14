@@ -2,6 +2,8 @@ public class HW06_4108056029_5 extends Dessert_Desert{
     int[][] inputArr;
     int len;//each array's length
     public int[] maxBlocks(int[][] inputArr){
+        long start =System.currentTimeMillis();
+
         int n=inputArr.length;
         this.inputArr = inputArr;
         int[] ans = new int[n];
@@ -22,8 +24,10 @@ public class HW06_4108056029_5 extends Dessert_Desert{
                 }
             }
             ans[i]++;
-            System.out.println(ans[i]);
+            //System.out.println(ans[i]);
         }
+        long now =System.currentTimeMillis();
+        System.out.println("test5 time:"+(now-start)/1000.0);
         return ans;
     }
     public static void main(String[] args){

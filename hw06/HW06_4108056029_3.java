@@ -1,6 +1,8 @@
 public class HW06_4108056029_3 extends Dessert_Desert{
     int[][] inputArr;
     public int[] maxBlocks(int[][] inputArr){
+        long start =System.currentTimeMillis();
+
         int num_thread = 4,lgTNum=2;
         int n=inputArr.length;
         this.inputArr = inputArr;
@@ -48,6 +50,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                                     ans[i]++;
                                 }
                             }
+                            ans[i]++;
                         }
                     }
                 });
@@ -74,6 +77,7 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                                 ans[i]++;
                             }
                         }
+                        ans[i]++;
                     }
                 }
             });
@@ -84,6 +88,8 @@ public class HW06_4108056029_3 extends Dessert_Desert{
                 }
             }catch(InterruptedException e){}
         }
+        long now =System.currentTimeMillis();
+        System.out.println("test3 time:"+(now-start)/1000.0);
         return ans;
     }
     public static void main(String[] args){

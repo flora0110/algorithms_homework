@@ -1,6 +1,6 @@
-_1 : error
-	max : int[]
-	compare : if else
+_1 : 
+	max : int
+	compare : nax()
 _2 : 3
 	arr = {{}}
 
