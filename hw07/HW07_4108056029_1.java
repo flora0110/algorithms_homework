@@ -8,26 +8,28 @@ public class HW07_4108056029_1 extends Buy_Phone{
         this.inputArr = inputArr;
         shuffle();
         sort(0,n-1);
-        int num=n,last,lasty;
-        for(i=0;i<n && inputArr[i][0]>-1;i++){
-            last = i;
-            lasty = inputArr[i][1];
-            for(j=i+1;j<n && lasty>-1;j++){
-                if(inputArr[j][1]>=lasty){
-                    inputArr[last][1] = -1;
-                    last = j;
-                    lasty = inputArr[j][1];
-                    num--;
+        int num=0,maxy;
+        int[] remind = new int[n];
+        for(i=0;i<n;i++){
+            //System.out.println("i is "+i);
+            //last = i;
+            maxy = inputArr[i][1];
+            for(j=i+1;j<n;j++){
+                if(inputArr[j][1]>=maxy){
+                    //inputArr[last][1] = -1;
+                    //last = j;
+                    maxy = inputArr[j][1];
+                    //num--;
+                    i = j;
+                    //System.out.println("change i to "+i);
                 }
             }
+            remind[num++] = i;
         }
         ans = new int[num][2];
-        num=0;
-        for(i=0;i<n;i++){
-            if(inputArr[i][1]!=-1){
-                ans[num][0] = inputArr[i][0];
-                ans[num++][1] = inputArr[i][1];
-            }
+        for(i=0;i<num;i++){
+            ans[i][0] = inputArr[remind[i]][0];
+            ans[i][1] = inputArr[remind[i]][1];
         }
         return ans;
     }
