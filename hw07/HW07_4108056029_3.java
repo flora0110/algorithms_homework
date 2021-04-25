@@ -7,26 +7,31 @@ public class HW07_4108056029_3 extends Buy_Phone{
         int i,j;
         this.inputArr = inputArr;
         quick_sort(0,n-1);
-        int num=n,last,lasty;
-        for(i=0;i<n && inputArr[i][0]>-1;i++){
-            last = i;
-            lasty = inputArr[i][1];
-            for(j=i+1;j<n && lasty>-1;j++){
-                if(inputArr[j][1]>=lasty){
-                    inputArr[last][1] = -1;
-                    last = j;
-                    lasty = inputArr[j][1];
-                    num--;
+        /*for(i=0;i<n;i++){
+            System.out.println(inputArr[i][0]+" "+inputArr[i][1]);
+        }*/
+        int num=0,maxy;
+        int[] remind = new int[n];
+        for(i=0;i<n;i++){
+            //System.out.println("i is "+i);
+            //last = i;
+            maxy = inputArr[i][1];
+            for(j=i+1;j<n;j++){
+                if(inputArr[j][1]>=maxy){
+                    //inputArr[last][1] = -1;
+                    //last = j;
+                    maxy = inputArr[j][1];
+                    //num--;
+                    i = j;
+                    //System.out.println("change i to "+i);
                 }
             }
+            remind[num++] = i;
         }
         ans = new int[num][2];
-        num=0;
-        for(i=0;i<n;i++){
-            if(inputArr[i][1]!=-1){
-                ans[num][0] = inputArr[i][0];
-                ans[num++][1] = inputArr[i][1];
-            }
+        for(i=0;i<num;i++){
+            ans[i][0] = inputArr[remind[i]][0];
+            ans[i][1] = inputArr[remind[i]][1];
         }
         return ans;
     }
@@ -69,11 +74,12 @@ public class HW07_4108056029_3 extends Buy_Phone{
     }
     public static void main(String[] args){
         HW07_4108056029_3 test = new HW07_4108056029_3();
-        int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{5,5},{8,4},{10,2},{10,1}};
+        //int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{5,5},{8,4},{10,2},{10,1}};
         //int[][] inputArr = {{2,1},{5,3},{5,4},{7,2}};
+        int[][] inputArr = {{0,10},{1,1},{2,3},{2,4},{3,1},{4,6},{4,8},{5,1},{6,4}};
         int[][] ans= test.bestPhone(inputArr);
-        for(int i=0;i<ans.length;i++){
+        /*for(int i=0;i<ans.length;i++){
             System.out.println(ans[i][0]+" "+ans[i][1]);
-        }
+        }*/
     }
 }
