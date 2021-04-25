@@ -7,12 +7,15 @@ public class HW07_4108056029_2 extends Buy_Phone{
         int i,j;
         this.inputArr = inputArr;
         quick_sort(0,n-1);
-        int num=n;
+        int num=n,last,lasty;
         for(i=0;i<n && inputArr[i][0]>-1;i++){
-            for(j=i+1;j<n;j++){
-                if(inputArr[j][1]>=inputArr[i][1]){
-                    inputArr[i][0] = -1;
-                    i=j;
+            last = i;
+            lasty = inputArr[i][1];
+            for(j=i+1;j<n && lasty>-1;j++){
+                if(inputArr[j][1]>=lasty){
+                    inputArr[last][1] = -1;
+                    last = j;
+                    lasty = inputArr[j][1];
                     num--;
                 }
             }
@@ -20,7 +23,7 @@ public class HW07_4108056029_2 extends Buy_Phone{
         ans = new int[num][2];
         num=0;
         for(i=0;i<n;i++){
-            if(inputArr[i][0]!=-1){
+            if(inputArr[i][1]!=-1){
                 ans[num][0] = inputArr[i][0];
                 ans[num++][1] = inputArr[i][1];
             }
@@ -47,8 +50,8 @@ public class HW07_4108056029_2 extends Buy_Phone{
         }
     }
     public static void main(String[] args){
-        HW07_4108056029_1 test = new HW07_4108056029_1();
-        int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{5,5},{8,4},{10,2},{10,1},{1,1}};
+        HW07_4108056029_2 test = new HW07_4108056029_2();
+        int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{5,5},{8,4},{10,2},{10,1}};
         int[][] ans= test.bestPhone(inputArr);
         for(int i=0;i<ans.length;i++){
             System.out.println(ans[i][0]+" "+ans[i][1]);

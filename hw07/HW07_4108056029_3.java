@@ -13,15 +13,12 @@ public class HW07_4108056029_3 extends Buy_Phone{
             lasty = inputArr[i][1];
             for(j=i+1;j<n && lasty>-1;j++){
                 if(inputArr[j][1]>=lasty){
-                    System.out.println("new"+inputArr[j][0]+" "+inputArr[j][1]);
                     inputArr[last][1] = -1;
                     last = j;
                     lasty = inputArr[j][1];
-                    //i=j;
                     num--;
                 }
             }
-            System.out.println("i = "+i+" last = "+last);
         }
         ans = new int[num][2];
         num=0;
@@ -72,8 +69,8 @@ public class HW07_4108056029_3 extends Buy_Phone{
     }
     public static void main(String[] args){
         HW07_4108056029_3 test = new HW07_4108056029_3();
-        //int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{5,5},{8,4},{10,2},{10,1}};
-        int[][] inputArr = {{2,1},{5,3},{5,4},{7,2}};
+        int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{5,5},{8,4},{10,2},{10,1}};
+        //int[][] inputArr = {{2,1},{5,3},{5,4},{7,2}};
         int[][] ans= test.bestPhone(inputArr);
         for(int i=0;i<ans.length;i++){
             System.out.println(ans[i][0]+" "+ans[i][1]);
