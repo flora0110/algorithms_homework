@@ -58,7 +58,7 @@ public class HW08_4108056029_2 extends Buy_Phone_v2{
             count[i+1] += count[i];
         }
         for(i=lo;i<=hi;i++){
-            aux[count[inputArr[i][d]+1]] = inputArr[i];
+            aux[count[inputArr[i][d]+1]++] = inputArr[i];
             auxmark[count[inputArr[i][d]+1]++] = mark[i];
         }
         for(i=lo;i<=hi;i++){
