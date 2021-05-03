@@ -1,4 +1,4 @@
-public class HW08_4108056029_1 extends Buy_Phone_v2{
+public class HW08_4108056029_3 extends Buy_Phone_v2{
     static int[][] aux = new int[20000][16];
     static int[] auxmark = new int[16];
     public int[][] bestPhone(int[][] inputArr){
@@ -69,5 +69,13 @@ public class HW08_4108056029_1 extends Buy_Phone_v2{
             if(d==3) d=-1;
             sort(inputArr,mark,lo+count[i],lo+count[i+1]-1,d+1);
         }
+    }
+    public static void main(String[] args){
+        HW08_4108056029_3 test = new HW08_4108056029_3();
+        int[][] inputArr = {{2,4},{2,10},{5,4},{4,8},{1,1},{1,1},{5,5},{8,4},{10,2},{10,1}};
+        int[][] ans= test.bestPhone(inputArr);
+        /*for(int i=0;i<ans.length;i++){
+            System.out.println(ans[i][0]+" "+ans[i][1]);
+        }*/
     }
 }
