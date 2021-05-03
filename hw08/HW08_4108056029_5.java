@@ -4,20 +4,23 @@
 // tail for header0?->no
 //header0 node[]->int[]? ->ok
 //binary search to find?
+//arraycopy??
 public class HW08_4108056029_5 extends Buy_Phone_v2{
-    int[][] inputArr;
+    static int[][] aux = new int[20000][6];
+    //int[][] inputArr;
     int n;
-    final static int[][] aux = new int[10000][2];
     public int[][] bestPhone(int[][] inputArr){
         n = inputArr.length;
-        this.inputArr = inputArr;
-        sort(0,n);
-        /*for(int i=0;i<5;i++){
+        //this.inputArr = inputArr;
+        sort(inputArr,0,n-1,0);
+        /*System.out.println("sort------------------------");
+        for(int i=0;i<n;i++){
             for(int j=0;j<6;j++){
                 System.out.print(inputArr[i][j]+" ");
             }
             System.out.println();
-        }*/
+        }
+        System.out.println("----------------------------");*/
         int check;//if win[] is all 1 : check=1 else check=0(can be replace)
         node[] position = new node[6];//if inputArr[i] can remind , than at link header[h] it will after position[h]
         node[] header = new node[6];//small to big
@@ -120,49 +123,39 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
             this.next = next;
         }
     }
-    private void merge(int start, int mid, int end){
-        if(inputArr[mid-1][0] <= inputArr[mid][0]) return;
-        System.arraycopy(inputArr, start, aux, start, end-start);
-        int i = start;
-        int j = mid;
-        while(i!=mid && j!=end) {
-        inputArr[start++] = (aux[i][0] < aux[j][0])? aux[i++] : aux[j++];
-    }
-        while(i!=mid)           inputArr[start++] = aux[i++];
-        while(j!=end)           inputArr[start++] = aux[j++];
-    }
-
-    private void sort(int from, int to){
-        if(from + 9 > to){
-            Insertion(from, to);
-            return;
+    public static void sort(int[][] inputArr,int lo,int hi,int d){//inputArr->x
+        if(hi<=lo) return;
+        int [] count = new int[12];
+        int i;
+        for(i=lo;i<=hi;i++){
+            count[inputArr[i][d]+2]++;
         }
-        int mid = (from+to) >> 1;
-        sort(from, mid);
-        sort(mid, to);
-        merge(from, mid, to);
-    }
-
-    private void Insertion(int from, int to){
-        int[] tmp = new int[6];
-        for(int i=from+1; i<to; i++){
-            for(int j=i-1; j>=from && (inputArr[j][0] > inputArr[j+1][0]); j--){
-                tmp  = inputArr[j];
-                inputArr[j] = inputArr[j+1];
-                inputArr[j+1] = tmp;
-            }
+        for(i=1;i<11;i++){
+            count[i+1] += count[i];
+        }
+        for(i=lo;i<=hi;i++){
+            aux[count[inputArr[i][d]+1]++] = inputArr[i];
+            //auxmark[count[inputArr[i][d]+1]++] = mark[i];
+        }
+        for(i=lo;i<=hi;i++){
+            inputArr[i] = aux[i-lo];
+            //mark[i] = auxmark[i-lo];
+        }
+        for(i=0;i<10;i++){
+            if(d==3) d=-1;
+            sort(inputArr,lo+count[i],lo+count[i+1]-1,d+1);
         }
     }
     public static void main(String[] args){
         HW08_4108056029_5 test = new HW08_4108056029_5();
         //int[][] inputArr = {{2,3,5,0,1,2,3},{1,7,3,2,5,0,1},{3,0,0,2,3,4,7},{0,2,3,4,5,6,1},{2,2,5,6,7,1,0}};
-        int[][] inputArr = {{8,7,7,4,2,1},{2,4,9,2,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
+        int[][] inputArr = {{8,7,7,4,2,1},{2,4,9,2,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9},{8,1,1,1,1,1}};
         int[][] ans = test.bestPhone(inputArr);
-        for(int i=0;i<ans.length;i++){
+        /*for(int i=0;i<ans.length;i++){
             for(int j=0;j<6;j++){
                 System.out.print(ans[i][j]+" ");
             }
             System.out.println();
-        }
+        }*/
     }
 }
