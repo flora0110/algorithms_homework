@@ -1,6 +1,8 @@
 //position error -> ok
 //win[] -> int win
-//header0 -> small to big new_node = new node(,,header0.next); header0.next = new_node;
+//header0 -> small to big new_node = new node(,,header0.next); header0.next = new_node;->no
+// tail for header0?->no
+//header0 node[]->int[]? ->ok
 //binary search to find?
 public class HW08_4108056029_5 extends Buy_Phone_v2{
     int[][] inputArr;
@@ -24,7 +26,8 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
             header[i] = new node(null,-1,null);//will point to inputArr[i] which has smallest bit at h
             //position[i] = header[i];
         }
-        node header0 = new node(null,-1,null);
+        //node header0 = new node(null,-1,null);
+        int[] header0 = new int[n];
         node now;
         int num=0;//ans array's size
         //System.out.println("before for loop");
@@ -50,7 +53,13 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
                 //System.out.println("position "+h+"'s id"+ position[h].id);
             }
             check=1;//if inputArr[i] didnt lose all bit with any inputArr
-            now = header0;
+            for(int j=0;j<num;j++){
+                if(win[header0[j]]<=0){
+                    check = 0;
+                    break;
+                }
+            }
+            /*now = header0;
             //System.out.println("header0's id : "+ header0.id);
             while(now.next!=null){
                 //System.out.println("now.next id= "+now.next.id);
@@ -59,14 +68,16 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
                     break;
                 }
                 now = now.next;
-            }
+            }*/
+
             if(check == 1){//cant be replace
                 for(int h=1;h<6;h++){//insert in header[]
                     node new_node = new node(inputArr[i],i,position[h].next);
                     position[h].next = new_node;
                 }
-                node new_node = new node(inputArr[i],i,now.next);
-                now.next = new_node;//add it in the last of header0
+                /*node new_node = new node(inputArr[i],i,now.next);
+                now.next = new_node;//add it in the last of header0*/
+                header0[num] = i;
                 num++;//ans's number+1
             }
             /*//test---------------------------------------------
@@ -89,12 +100,13 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
         }
         //System.out.println("num: "+num);
         int[][] ans = new int[num][6];
-        now = header0.next;
+        int count = 0;
+        //now = header0.next;
         for(int i=num-1;i>=0;i--){
             //System.out.println("now.id: "+now.id);
             //System.out.println("now.arr: "+now.arr[0]);
-            ans[i] = now.arr;
-            now = now.next;
+            ans[i] = inputArr[header0[count++]];
+            //now = now.next;
         }
         return ans;
     }
@@ -146,11 +158,11 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
         //int[][] inputArr = {{2,3,5,0,1,2,3},{1,7,3,2,5,0,1},{3,0,0,2,3,4,7},{0,2,3,4,5,6,1},{2,2,5,6,7,1,0}};
         int[][] inputArr = {{8,7,7,4,2,1},{2,4,9,2,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
         int[][] ans = test.bestPhone(inputArr);
-        /*for(int i=0;i<ans.length;i++){
+        for(int i=0;i<ans.length;i++){
             for(int j=0;j<6;j++){
                 System.out.print(ans[i][j]+" ");
             }
             System.out.println();
-        }*/
+        }
     }
 }
