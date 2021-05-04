@@ -6,14 +6,17 @@
 //binary search to find?
 //arraycopy??
 public class HW08_4108056029_5 extends Buy_Phone_v2{
-    final static public int[][] aux = new int[20000][6];
-    static int[][] array;
+    final static public int[][] aux = new int[10000][6];
+    int[][] array;
     //int n;
     public int[][] bestPhone(int[][] inputArr){
         //this.inputArr = inputArr;
-        array = inputArr;
-        int n = array.length;
-        sort(array,0,n-1,0);
+        //array = inputArr;
+        int n = inputArr.length;
+        array = new int[n][6];
+        System.arraycopy(inputArr,0,array,0,n);
+
+        sort(array,0,n-1);
         /*System.out.println("sort------------------------");
         for(int i=0;i<n;i++){
             for(int j=0;j<6;j++){
@@ -124,27 +127,38 @@ public class HW08_4108056029_5 extends Buy_Phone_v2{
             this.next = next;
         }
     }
-    public static void sort(int[][] array,int lo,int hi,int d){//array->x
+    private static void sort(int[][] array,int lo,int hi){
         if(hi<=lo) return;
-        int [] count = new int[12];
-        int i;
-        for(i=lo;i<=hi;i++){
-            count[array[i][d]+2]++;
-        }
-        for(i=1;i<11;i++){
-            count[i+1] += count[i];
-        }
-        for(i=lo;i<=hi;i++){
-            aux[count[array[i][d]+1]++] = array[i];
-            //auxmark[count[array[i][d]+1]++] = mark[i];
-        }
-        for(i=lo;i<=hi;i++){
-            array[i] = aux[i-lo];
-            //mark[i] = auxmark[i-lo];
-        }
-        for(i=0;i<10;i++){
-            if(d==3) d=-1;
-            sort(array,lo+count[i],lo+count[i+1]-1,d+1);
+        int mid = (hi+lo)>>1;
+
+        sort(array,lo,mid);
+        sort(array,mid+1,hi);
+        merge(array,lo,mid,hi);
+    }
+    private static void merge(int[][] array,int lo,int mid,int hi){//array->x
+
+        System.arraycopy(array,lo,aux,lo,hi-lo+1);
+
+        int i=lo,j=mid+1;
+        for(int k=lo;k<=hi;k++){
+            if(i>mid){
+                array[k] = aux[j++];
+            }
+            else if(j>hi){
+                array[k] = aux[i++];
+            }
+            else{
+                for(int h=0;h<6;h++){
+                    if(aux[i][h]>aux[j][h]) {
+                        array[k] = aux[j++];
+                        break;
+                    }
+                    else if(aux[i][h]<aux[j][h]){
+                        array[k] = aux[i++];
+                        break;
+                    }
+                }
+            }
         }
     }
     public static void main(String[] args){
