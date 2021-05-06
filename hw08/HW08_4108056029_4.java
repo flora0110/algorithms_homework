@@ -1,185 +1,134 @@
 public class HW08_4108056029_4 extends Buy_Phone_v2{
     int[][] array;
-    final static public int[][] aux = new int[10000][6];
-    //final static public int[][] aux = new int[10000][2];
     static int[][] ans;
+    final static int[][] aux = new int[10000][6];
     int n;
+    private static int sort(int[][] array,int lo,int hi){
+        if(hi<=lo) return lo;
+        int mid = (hi+lo)>>1;
+        int i_hi = sort(array,lo,mid);
+        int j_hi = sort(array,mid+1,hi);
+        return merge(array,lo,i_hi,mid+1,j_hi);
+    }
+    private static int merge(int[][] array,int i_low,int i_hi,int j_low,int j_hi){
+        int k;
+        for(k=i_low;k<=i_hi;k++){
+            aux[k] = array[k];
+        }
+        for(k=j_low;k<=j_hi;k++){
+            aux[k] = array[k];
+        }
+        //System.arraycopy(array,i_low,aux,i_low,i_hi-i_low+1);
+        //System.arraycopy(array,j_low,aux,j_low,j_hi-j_low+1);
+        int i=i_low,j=j_low,top = i_hi+(j_hi-j_low)+1;
+        for(k=i_low;i<=i_hi||j<=j_hi;){
+            if(i>i_hi){
+                array[k++] = aux[j++];
+            }
+            else if(j>j_hi){
+                array[k++] = aux[i++];
+            }
+            else{
+                int ori_k = k;
+                //int k_plusplus = 1;
+
+                if(aux[i][0] > aux[j][0]) {
+                    //if(aux[i][1] < aux[j][1]) array[k++] = aux[j++];
+                    if((aux[i][1] < aux[j][1])||(((aux[i][2] < aux[j][2])|| (aux[i][3] < aux[j][3]))||((aux[i][4] < aux[j][4])||(aux[i][5] < aux[j][5])))) array[k++] = aux[j++];
+                    else{
+                        top--;
+                        j++;
+                        //k_plusplus=0;
+                    }
+                }
+                else if(aux[i][0] < aux[j][0]) {
+                    if((aux[i][1] > aux[j][1])||(((aux[i][2] > aux[j][2])|| (aux[i][3] > aux[j][3]))||((aux[i][4] > aux[j][4])||(aux[i][5] > aux[j][5])))) array[k++] = aux[i++];
+
+                    else{
+                        top--;
+                        i++;
+
+                    }
+                }
+                else{
+
+
+                    if(aux[i][1]>aux[j][1]) {
+                        array[k++] = aux[j++];
+                    }
+                    else if(aux[i][1]<aux[j][1]){
+                        array[k++] = aux[i++];
+                    }
+                    else{
+                        if(aux[i][2]>aux[j][2]) {
+                            array[k++] = aux[j++];
+                        }
+                        else if(aux[i][2]<aux[j][2]){
+                            array[k++] = aux[i++];
+                        }
+                        else{
+                            if(aux[i][3]>aux[j][3]) {
+                                array[k++] = aux[j++];
+                            }
+                            else if(aux[i][3]<aux[j][3]){
+                                array[k++] = aux[i++];
+                            }
+                            else{
+                                if(aux[i][4]>aux[j][4]) {
+                                    array[k++] = aux[j++];
+                                }
+                                else if(aux[i][4]<aux[j][4]){
+                                    array[k++] = aux[i++];
+                                }
+                                else{
+                                    if(aux[i][5]>aux[j][5]) {
+                                        array[k++] = aux[j++];
+                                    }
+                                    else if(aux[i][5]<aux[j][5]){
+                                        array[k++] = aux[i++];
+                                    }
+                                    else{
+                                        i++;
+                                        top--;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }//////////////////////////else
+        }////////////////////////k loop
+        return top;
+    }
     public int[][] bestPhone(int[][] inputArr){
-        array = new int[inputArr.length][6];
-        System.arraycopy(inputArr,0,array,0,inputArr.length);
-        //array = inputArr;
+        array = inputArr;
         n = array.length;
-        //this.array = array;
-        sort(array,0,n-1);
-        int[][] pre_exist = new int[n][6];
-        pre_exist[0] = array[n-1];
-        int pre_num = 1;
-        int min1 = array[n-1][1];
-        int min2 = array[n-1][2];
-        int min3 = array[n-1][3];
-        int min4 = array[n-1][4];
-        int min5 = array[n-1][5];
-        int temp_min1;
-        int temp_min2;
-        int temp_min3;
-        int temp_min4;
-        int temp_min5;
-        for(int i=n-2;i>=0;i--){
-            /*System.out.println("i = "+i+" array:"+array[i][0]+" "+array[i][1]+" "+array[i][2]+" "
-            +array[i][3]+" "+array[i][4]+" "+array[i][5]+" ");
-            System.out.println("min:"+min1+" "+min2+" "+min3+" "
-            +min4+" "+min5);*/
-            if(array[i][1] >= min1){
-                pre_exist[pre_num++] = array[i];
-                min1 = array[i][1];
-                min2 = array[i][2];
-                min3 = array[i][3];
-                min4 = array[i][4];
-                min5 = array[i][5];
-                continue;
-            }
-            if(array[i][2] >= min2){
-                pre_exist[pre_num++] = array[i];
-                min1 = array[i][1];
-                min2 = array[i][2];
-                min3 = array[i][3];
-                min4 = array[i][4];
-                min5 = array[i][5];
-                continue;
-            }
-            if(array[i][3] >= min3){
-                pre_exist[pre_num++] = array[i];
-                min1 = array[i][1];
-                min2 = array[i][2];
-                min3 = array[i][3];
-                min4 = array[i][4];
-                min5 = array[i][5];
-                continue;
-            }
-            if(array[i][4] >= min4){
-                pre_exist[pre_num++] = array[i];
-                min1 = array[i][1];
-                min2 = array[i][2];
-                min3 = array[i][3];
-                min4 = array[i][4];
-                min5 = array[i][5];
-                continue;
-            }
-            if(array[i][5] >= min5){
-                pre_exist[pre_num++] = array[i];
-                min1 = array[i][1];
-                min2 = array[i][2];
-                min3 = array[i][3];
-                min4 = array[i][4];
-                min5 = array[i][5];
-            }
-        }
-        /*for(int i=0;i<pre_num;i++){
-            System.out.println("i = "+i+" array:"+pre_exist[i][0]+" "+pre_exist[i][1]+" "+pre_exist[i][2]+" "
-            +pre_exist[i][3]+" "+pre_exist[i][4]+" "+pre_exist[i][5]+" ");
-        }*/
-        /*System.out.println("---------------------------");
-        for(int i=0;i<n;i++){
-            for(int j=0;j<6;j++){
-                System.out.print(array[i][j]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println("---------------------------");*/
-        int[][] exist = new int[n][6];
-        exist[0] = pre_exist[0];
+        int top = sort(array,0,n-1);
+        int[][] exist = new int[top+1][6];
+        exist[0] = array[top];
         int num=1;//ans array's size
         int win;
         int check;
-        for(int i=1;i<pre_num;i++){//control array[i]
+        for(int i=top-1;i>=0;i--){//control array[i]
             check=1;
             for(int j=0;j<num;j++){//control exist[j]
                 win=0;
                 for(int h=1;h<6;h++){
-                    if(pre_exist[i][h]>exist[j][h]){
+                    if(array[i][h]>exist[j][h]){
                         win=1;
                     }
                 }
                 if(win==0){ check=0; break;}
             }
-            if(check==1) exist[num++] = pre_exist[i];
+            if(check==1) exist[num++] = array[i];
         }
         int[][] ans = new int[num][6];
         int count = 0;
         for(int i=num-1;i>=0;i--){
             ans[i] = exist[count++];
         }
+
         return ans;
     }
-    private static void sort(int[][] array,int lo,int hi){
-        if(hi<=lo) return;
-        int mid = (hi+lo)>>1;
-        //System.out.println("lo = "+lo+" mid = "+mid+" hi = "+hi);
-
-        sort(array,lo,mid);
-        sort(array,mid+1,hi);
-        merge(array,lo,mid,hi);
-    }
-    private static void merge(int[][] array,int lo,int mid,int hi){//array->x
-        //System.out.println("lo = "+lo+" hi = "+hi);
-        System.arraycopy(array,lo,aux,lo,hi-lo+1);
-        /*System.out.println("aux--------------------------");
-        for(int i=lo;i<=hi;i++){
-            for(int j=0;j<6;j++){
-                System.out.print(aux[i][j]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println("-----------------------aux");*/
-        int i=lo,j=mid+1;
-        for(int k=lo;k<=hi;k++){
-            if(i>mid){
-                array[k] = aux[j++];
-            }
-            else if(j>hi){
-                array[k] = aux[i++];
-            }
-            else{
-                for(int h=0;h<6;h++){
-                    //System.out.println("h = "+h);
-                    //System.out.print("aux["+i+"]["+h+"] : "+aux[i][h]);
-                    //System.out.println("v.s. aux["+j+"]["+h+"] : "+aux[j][h]);
-
-                    if(aux[i][h]>aux[j][h]) {
-                        array[k] = aux[j++];
-                        break;
-                    }
-                    else if(aux[i][h]<aux[j][h]){
-                        array[k] = aux[i++];
-                        break;
-                    }
-                }
-            }
-            /*System.out.print("array["+k+"]  : ");
-            for(int f=0;f<6;f++){
-                System.out.print(array[k][f]+" ");
-            }
-            System.out.println();*/
-        }
-        /*System.out.println("array--------------------------");
-        for(i=lo;i<=hi;i++){
-            for(j=0;j<6;j++){
-                System.out.print(array[i][j]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println("-----------------------arr");*/
-    }
-    /*public static void main(String[] args){
-        HW08_4108056029_4 test = new HW08_4108056029_4();
-        //int[][] inputArr = {{2,3,5,0,1,2,3},{1,7,3,2,5,0,1},{3,0,0,2,3,4,7},{0,2,3,4,5,6,1},{2,2,5,6,7,1,0}};
-        int[][] inputArr = {{8,7,7,4,2,1},{2,4,9,2,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
-        int[][] ans = test.bestPhone(inputArr);
-        for(int i=0;i<ans.length;i++){
-            for(int j=0;j<6;j++){
-                System.out.print(ans[i][j]+" ");
-            }
-            System.out.println();
-        }
-    }*/
 }
