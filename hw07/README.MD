@@ -6,7 +6,7 @@
 >Input:[[1,1],[2,4],[2,10],[5,4],[4,8],[5,5],[8,4],[10,2],[10,1]]  
 >Output: [[2,10],[4,8],[5,5],[8,4],[10,2]]  
 
-fastest vesion : 2
+fastest vesion : 2  
 **best version : 1**
 ## bestphone  
 先排好(x優先)
