@@ -35,5 +35,6 @@ top紀錄最後合併時的array的最後一格，並return 回 sort
 3	HW08_4108056018_2	Correct	0.001835  
 <font color=#FF0000>4	HW08_4108056029_4	Correct	0.002127</font>   
 <font color=#FF6600>橘色</font>	
+<span style="color:blue">some *blue* text</span>.  
 ## 改進方向  
 把merge()塞進sort()減少return時間?
