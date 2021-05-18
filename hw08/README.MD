@@ -30,10 +30,10 @@ top紀錄最後合併時的array的最後一格，並return 回 sort
             if(check==1) exist[num++] = array[i];
         }
 ```  
-1	HW08_4108056020_3	Correct	0.001532
-2	HW08_4108056020_4	Correct	0.001555
-3	HW08_4108056018_2	Correct	0.001835
-4	HW08_4108056029_4	Correct	0.002127
+1	HW08_4108056020_3	Correct	0.001532  
+2	HW08_4108056020_4	Correct	0.001555  
+3	HW08_4108056018_2	Correct	0.001835  
+<font color=#800000>4	HW08_4108056029_4	Correct	0.002127</font>   
 
 ## 改進方向  
 把merge()塞進sort()減少return時間?
