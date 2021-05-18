@@ -14,4 +14,19 @@ if(aux[i][0] > aux[j][0]) {
 top紀錄最後合併時的array的最後一格，並return 回 sort  
 * mergesort後以第一個變數為優先排好
 ## bestphone  
-因為已排好，所以前項不可能代替後項，由後往前和確定留下的phone比就好
+因為已排好，所以前項不可能代替後項，由後往前和確定留下的phone比就好  
+```
+        for(int i=top-1;i>=0;i--){//control array[i]
+            check=1;
+            for(int j=0;j<num;j++){//control exist[j]
+                win=0;
+                for(int h=1;h<6;h++){
+                    if(array[i][h]>exist[j][h]){
+                        win=1;
+                    }
+                }
+                if(win==0){ check=0; break;}
+            }
+            if(check==1) exist[num++] = array[i];
+        }
+```
