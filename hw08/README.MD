@@ -1,10 +1,10 @@
 # hw08
->Your program will take a six-dimensional integer array as input. 
->Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).
->Please return an sorted array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beaten by some model).
->The return array should be sorted by the first element of each array in the output. 
->Input : [[8,7,7,4,2,1],[2,4,4,6,2,1],[4,0,5,1,3,2],[5,2,4,3,7,3],[7,5,6,9,8,9]]
->Output: [[7,5,6,9,8,9],[8,7,7,4,2,1]]
+>Your program will take a six-dimensional integer array as input.  
+>Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).  
+>Please return an sorted array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beaten by some model).  
+>The return array should be sorted by the first element of each array in the output.  
+>Input : [[8,7,7,4,2,1],[2,4,4,6,2,1],[4,0,5,1,3,2],[5,2,4,3,7,3],[7,5,6,9,8,9]]  
+>Output: [[7,5,6,9,8,9],[8,7,7,4,2,1]]  
 
 fastest version : 4  
 ## mergesort  
