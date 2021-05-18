@@ -1,5 +1,6 @@
 # hw08
 fastest version : 4  
+<span style="color:red">some **This is Red Bold.** text</span>  
 ## mergesort  
 * 在merge時先篩選一次  
 ```
