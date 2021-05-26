@@ -3,9 +3,9 @@ public class HW09_4108056029_5 extends LSD {
 		HW09_4108056029_5 test = new HW09_4108056029_5();
 		//int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 0, 4 }, { 1, 3 }, { 1, 4 }, { 2, 5 }, { 6, 7 } };	// 4
 		//int[][] inputArr = { { 1, 2 }, { 3, 2 }, { 5, 4 }, { 4, 6 }, { 7, 4 }, { 9, 8 } };	// 2
-//		int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 1, 3 }, { 1, 4 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 7 }, { 5, 6 }, { 5, 7 }, { 6, 9 }, { 7, 8 }, { 9, 10 } };	// 5
-//		int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 4 }};	// 4
-		int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 1 }, { 2, 4 }, { 5, 4 }, { 6, 4 }, { 3, 7 }, { 7, 8 }, { 7, 10 }, { 8, 9 }};	// 6
+		//int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 1, 3 }, { 1, 4 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 7 }, { 5, 6 }, { 5, 7 }, { 6, 9 }, { 7, 8 }, { 9, 10 } };	// 5
+		int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 4 }};	// 4
+		//int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 1 }, { 2, 4 }, { 5, 4 }, { 6, 4 }, { 3, 7 }, { 7, 8 }, { 7, 10 }, { 8, 9 }};	// 6
 
 		System.out.println("case5:");
 		//Stopwatch stopwatch = new Stopwatch();
@@ -19,11 +19,12 @@ public class HW09_4108056029_5 extends LSD {
 
 	public int Distance(int[][] array) {
 		Graph_4108056029 g = new Graph_4108056029(array.length + 1);
-
+        int i=0;
 		for (int[] v : array) {
+        //    System.out.println("i="+i++);
 			g.addEdge(v[0], v[1]);
 		}
-
+        //System.out.println("over");
 		return g.findMaxDepth()-1;
 	}
     public class Graph_4108056029{
@@ -37,116 +38,105 @@ public class HW09_4108056029_5 extends LSD {
         class Head {
 			int key;
 			int degree;
+            int[] visited;
+            int[] distTo;
             //boolean not_null;
 			ArrayList_29 sub_node;
-            //Head next_head;
+            Head next_head;
 		}
         public Graph_4108056029(int V){
-            //this.V = V;
             this.cap = (1<<(int)(Math.log(V)/Math.log(2)+1))-1;
-            dit = (int)(Math.log(V)/Math.log(2)+1);
-            this.V = cap<<dit+1;
-            //System.out.println("cap : "+this.cap);
-            //System.out.println("V : "+this.V);
-            //System.out.println("cap = "+cap);
+            this.V = cap+1;
             head =  new Head[this.V];
-            degree = new int[this.V];
             maxDegree=0;
         }
         public void addEdge(int v,int w){
-            int key_head = (v&cap)<<dit;
-            int key_head_w = (w&cap)<<dit;
-            for(;;key_head++){
-            //    System.out.println("v ,w : "+v+" "+w+" key_head: "+key_head);
-                if(head[key_head]==null){
-                    Head h = new Head();
-                    h.key = v;
-                    h.sub_node = new ArrayList_29();
-                    h.degree = 1;
-                    head[key_head]=h;
-                    //head[key_head].sub_node.add(subnode);
-                    break;
-                }
-                else if(head[key_head].key==v){
-
-                    if (++head[key_head].degree > maxDegree) {
-						maxDegree = head[key_head].degree;
-						maxDegreeNode = key_head;
-					}
-					//head[key_head].sub_node.add(subnode);//
-					//return;
-                    break;
-                }
+            int key_head = (v&cap);
+            int key_head_w = (w&cap);
+            for (Head c = head[key_head];; c = c.next_head) {
+            if(c==null){
+                Head h = new Head();
+                h.key = v;
+                h.sub_node = new ArrayList_29();
+                h.degree = 1;
+                h.visited = new int[2];
+                h.distTo = new int[2];
+                h.sub_node.add(w);
+                h.next_head = head[key_head];
+                head[key_head] = h;
+                break;
             }
-            for(;;key_head_w++){
-                //System.out.println("v ,w : "+v+" "+w+" key_head_w: "+key_head_w);
-                if(head[key_head_w]==null){
-                    Head h = new Head();
-                    h.key = w;
-                    h.sub_node = new ArrayList_29();
-                    h.degree = 1;
-                    head[key_head_w]=h;
-                    //head[key_head].sub_node.add(subnode);
-                    break;
-                }
-                else if(head[key_head_w].key==w){
-                    if (++head[key_head_w].degree > maxDegree) {
-						maxDegree = head[key_head_w].degree;
-						maxDegreeNode = key_head_w;
-					}
-					//head[key_head].sub_node.add(subnode);//
-					//return;
-                    break;
-                }
+            else if(c.key==v){
+                if (++c.degree > maxDegree) {
+					maxDegree = c.degree;
+					maxDegreeNode = v;
+				}
+                c.sub_node.add(w);
+                break;
             }
-            head[key_head].sub_node.add(key_head_w);
-            head[key_head_w].sub_node.add(key_head);
         }
-
+        for (Head c = head[key_head_w];; c = c.next_head) {
+            if(c==null){
+        	    Head h = new Head();
+                h.key = w;
+                h.sub_node = new ArrayList_29();
+                h.degree = 1;
+                h.visited = new int[2];
+                h.distTo = new int[2];
+                h.sub_node.add(v);
+                h.next_head = head[key_head_w];
+                head[key_head_w] = h;
+                break;
+            }
+            else if(c.key==w){
+                if (++c.degree > maxDegree) {
+					maxDegree = c.degree;
+					maxDegreeNode = w;
+				}
+                c.sub_node.add(v);
+                    break;
+                }
+            }
+        }
+        public Head get_head(int n){
+            for (Head c = head[n&cap]; c != null; c = c.next_head) {
+				if (c.key == n)
+					return c;
+			}
+			return null;
+        }
         int maxDepthNode;
-        int[] visited;
-        int[] distTo;
         int maxDepth;
         FiniteQueue q;
         final int findMaxDepth() {
+            maxDepth=0;
             q = new FiniteQueue(V);
-			// Find the most depth node from "center node", which has the most degree
-            //System.out.println("maxDegreeNode: "+maxDegreeNode);
-			BFSmark(maxDegreeNode);
-			// Find the most depth
-            //System.out.println("maxDepthNode: "+head[maxDepthNode].key);
-
-			BFSmark(maxDepthNode);
+			BFSmark(maxDegreeNode,0);
+			BFSmark(maxDepthNode,1);
 			return maxDepth;
 		}
 
-		final void BFSmark(int a) {
-			//Set depth = new Set(this.len);
-            visited = new int[this.V];
-            distTo = new int[this.V];
-            visited[a]=1;
+		final void BFSmark(int a,int k) {
+            Head h = get_head(a);
+            h.visited[k]=1;
+            h.distTo[k]=0;
             q.reset();
             q.add(a);
-			//depth.put(a, 1);
-			// FiniteQueue has been initialized when Graph() was constructed
-			//queue.enqueue(a);
-
 			while (!q.empty()) {
 				a = q.remove();
-                //System.out.println("head : "+head[a].key+" distTo : "+distTo[a]);
-				int self_depth = distTo[a] + 1;
+                h = get_head(a);
+				int self_depth = h.distTo[k] + 1;
 				if (self_depth > maxDepth) {
 					maxDepth = self_depth;
-					maxDepthNode = a;
+                    maxDepthNode = a;
 				}
-
-				ArrayList_29 arr = head[a].sub_node;
+				ArrayList_29 arr = h.sub_node;
 				for (arr.read(); arr.hasNext();) {
 					int n = arr.next();
-					if (visited[n]<1) {
-						//depth.put(n, self_depth);
-                        distTo[n] = self_depth;
-                        visited[n]=1;
+                    h=get_head(n);
+                    if (h.visited[k]<1) {
+                        h.distTo[k] = self_depth;
+                        h.visited[k]=1;
 						q.add(n);
 					}
 				}
