@@ -1,30 +1,10 @@
 public class HW09_4108056029_5 extends LSD {
-	public static void main(String[] args) {
-		HW09_4108056029_5 test = new HW09_4108056029_5();
-		//int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 0, 4 }, { 1, 3 }, { 1, 4 }, { 2, 5 }, { 6, 7 } };	// 4
-		//int[][] inputArr = { { 1, 2 }, { 3, 2 }, { 5, 4 }, { 4, 6 }, { 7, 4 }, { 9, 8 } };	// 2
-		//int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 1, 3 }, { 1, 4 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 7 }, { 5, 6 }, { 5, 7 }, { 6, 9 }, { 7, 8 }, { 9, 10 } };	// 5
-		int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 4 }};	// 4
-		//int[][] inputArr = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 1 }, { 2, 4 }, { 5, 4 }, { 6, 4 }, { 3, 7 }, { 7, 8 }, { 7, 10 }, { 8, 9 }};	// 6
-
-		System.out.println("case5:");
-		//Stopwatch stopwatch = new Stopwatch();
-		int ans = test.Distance(inputArr);
-		//double time = stopwatch.elapsedTime();
-		//System.out.println("elapsed time " + time);
-
-		System.out.println(ans);
-	}
-
-
 	public int Distance(int[][] array) {
 		Graph_4108056029 g = new Graph_4108056029(array.length + 1);
         int i=0;
 		for (int[] v : array) {
-        //    System.out.println("i="+i++);
 			g.addEdge(v[0], v[1]);
 		}
-        //System.out.println("over");
 		return g.findMaxDepth()-1;
 	}
     public class Graph_4108056029{
@@ -107,10 +87,10 @@ public class HW09_4108056029_5 extends LSD {
         }
         int maxDepthNode;
         int maxDepth;
-        FiniteQueue q;
+        FiniteQueue_29 q;
         final int findMaxDepth() {
             maxDepth=0;
-            q = new FiniteQueue(V);
+            q = new FiniteQueue_29(V);
 			BFSmark(maxDegreeNode,0);
 			BFSmark(maxDepthNode,1);
 			return maxDepth;
@@ -143,166 +123,13 @@ public class HW09_4108056029_5 extends LSD {
 			}
 		}
     }
-
-	/*class Set {
-		private int _cap; // _cap = cap - 1
-		private Element[] list;
-
-		Set(int cap) {
-			this._cap = (1 << (int) (Math.log(cap) / Math.log(2) + 1)) - 1;
-			this.list = new Element[this._cap + 1];
-		}
-
-		class Element {
-			int key;
-			int val;
-			Element next;
-		}
-
-		private int hashcode(int n) {
-			return n & _cap;
-		}
-
-		void put(int k, int v) {
-			Element newE = new Element();
-			newE.key = k;
-			newE.val = v;
-			newE.next = list[hashcode(k)];
-			list[hashcode(k)] = newE;
-		}
-
-		int get(int n) {
-			for (Element c = list[hashcode(n)]; c != null; c = c.next) {
-				if (c.key == n)
-					return c.val;
-			}
-			return 0;
-		}
-
-		boolean contain(int n) {
-			for (Element c = list[hashcode(n)]; c != null; c = c.next) {
-				if (c.key == n)
-					return true;
-			}
-			return false;
-		}
-	}
-
-	class HashAdjList {
-		private int _cap; // _cap = cap - 1
-		private int maxDegree;
-		public int maxDegreeNode;
-		Element[] list;
-
-		HashAdjList(int cap) {
-			this._cap = (1 << (int) (Math.log(cap) / Math.log(2) + 1)) - 1;
-			this.list = new Element[this._cap + 1];
-			this.maxDegree = -1;
-			this.maxDegreeNode = -1;
-		}
-
-		class Element {
-			int key;
-			int degree;
-			ArrayListLite val; // sub node
-			Element next;
-		}
-
-		private final int hashcode(int n) {
-			return n & _cap;
-		}
-
-		final void put(int n, int subnode) {
-			for (Element c = list[hashcode(n)]; c != null; c = c.next) {
-				if (c.key == n) {
-					if (++c.degree > maxDegree) {
-						maxDegree = c.degree;
-						maxDegreeNode = n;
-					}
-					c.val.add(subnode);
-					return;
-				}
-			}
-
-			Element newE = new Element();
-			newE.key = n;
-			newE.val = new ArrayListLite();
-			newE.val.add(subnode);
-			newE.next = list[hashcode(n)];
-			list[hashcode(n)] = newE;
-		}
-
-		final ArrayListLite get(int n) {
-			for (Element c = list[hashcode(n)]; c != null; c = c.next) {
-				if (c.key == n)
-					return c.val;
-			}
-			return null;
-		}
-	}
-*/
-/*	class Graph {
-		private HashAdjList adjList;
-		private FiniteQueue queue;
-		private int maxDepth;
-		private int maxDepthNode;
-		private int len;
-
-		Graph(int len) {
-			this.len = len;
-			this.maxDepth = 0;
-			adjList = new HashAdjList(len << 1);
-			queue = new FiniteQueue(len);
-		}
-
-		final void append(int a, int b) {
-			adjList.put(a, b);
-			adjList.put(b, a);
-		}
-
-		final int findMaxDepth() {
-			// Find the most depth node from "center node", which has the most degree
-			BFSmark(adjList.maxDegreeNode);
-			// Find the most depth
-			BFSmark(this.maxDepthNode);
-			return this.maxDepth;
-		}
-
-		final void BFSmark(int a) {
-			Set depth = new Set(this.len);
-
-			depth.put(a, 1);
-			// FiniteQueue has been initialized when Graph() was constructed
-			queue.enqueue(a);
-
-			while (!queue.empty()) {
-				a = queue.dequeue();
-				int self_depth = depth.get(a) + 1;
-				if (self_depth > maxDepth) {
-					maxDepth = self_depth;
-					maxDepthNode = a;
-				}
-
-				ArrayListLite arr = adjList.get(a);
-				for (arr.read(); arr.hasNext();) {
-					int n = arr.next();
-					if (!depth.contain(n)) {
-						depth.put(n, self_depth);
-						queue.enqueue(n);
-					}
-				}
-			}
-		}
-	}
-*/
-	// insecure
-	class FiniteQueue {
+	class FiniteQueue_29 {
 		private int _cap;
 		private int head;
 		private int tail;
 		private int[] list;
 
-		FiniteQueue(int cap) {
+		FiniteQueue_29(int cap) {
 			this._cap = (1 << (int) (Math.log(cap) / Math.log(2) + 1)) - 1;
 			this.list = new int[_cap + 1];
 			head = 0; // dequeue
