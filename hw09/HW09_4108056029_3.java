@@ -1,193 +1,219 @@
-public class HW09_4108056029_3 extends LSD{
-    public int Distance(int[][] array){
-        int len = array.length;
-        Graph_4108056029 g = new Graph_4108056029(len);
-        for(int i=0;i<len;i++){
-            //System.out.println("i: "+i);
-            g.addEdge(array[i][0],array[i][1]);
-            g.addEdge(array[i][1],array[i][0]);
-        }
-        //g.show();
-        return g.count();
+public class HW09_4108056029_3 extends LSD {
+    public static void main(String[] args) {
+    		HW09_4108056029_3 test = new HW09_4108056029_3();
+    		int[][] inputArr = { { 0, 1 }, { 0, 2 }, { 0, 4 }, { 1, 3 }, { 1, 4 }, { 2, 5 }, { 6, 7 } };	// 4
+    		test.Distance(inputArr);
     }
-    public static void main(String[] args){
-        HW09_4108056029_3 test = new HW09_4108056029_3();
-        int[][] array = {{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}};
-        test.Distance(array);
-        //System.out.println(test.Distance(array));
-        //test[] t = new test[3];
-        //t[0] = new test(0);
-        //ArrayList<Integer> al = new ArrayList<Integer>();
-        //ArrayList<Integer>[] a = new ArrayList[5];
-        //Set<Integer> set = new HashSet<Integer>();
-        //Set setA = new HashSet();
-        //ArrayList<Set<Integer>> groupMembers = new ArrayList<Set<Integer>>();
-    }
-
-    public class Graph_4108056029{
-
-        public class headnode{
-            int n;
-            int degree;
-            adjlist next;
-            adjlist tail;
-            public headnode(int n,int w){
-                this.n = n;
-                adjlist newnode = new adjlist(w);
-                degree = 1;
-                next = newnode;
-                tail = newnode;
-                //System.out.print("create");
-            }
-            public void add(int w){
-                degree++;
-                adjlist newnode = new adjlist(w);
-                tail.next = newnode;
-                tail = newnode;
-            }
-        }
-        //public final int V;
+	public int Distance(int[][] array) {
+		Graph_4108056029_3 g = new Graph_4108056029_3(array.length + 1);
+		for (int[] v : array) {
+			g.addEdge(v[0], v[1]);
+		}
+		return g.findMaxDepth()-1;
+	}
+    public class Graph_4108056029_3{
         int cap;
         int V;
-        public headnode[] head;
-        public Graph_4108056029(int V){
-            //this.V = V;
+        public Head[] head;
+        int maxDegree;
+        int maxDegreeNode;
+        class Head {
+			int key;
+			int degree;
+            int visited;
+            int visited_1;
+            int distTo;
+            int distTo_1;
+			ArrayList_29 sub_node;
+            Head next_head;
+		}
+        public Graph_4108056029_3(int V){
             this.cap = (1<<(int)(Math.log(V)/Math.log(2)+1))-1;
-            this.V = (this.cap+1)*V;
-            //System.out.println("cap = "+cap);
-            head = new headnode[this.V];
+            this.V = cap+1;
+            head =  new Head[this.V];
+            maxDegree=0;
         }
         public void addEdge(int v,int w){
-            int key_head = v&cap;
-            //System.out.println("Double.valueOf("+v+") = "+Double.valueOf(v));
-            //System.out.println("key of "+v+" is "+key_head);
-            //System.out.println("(Double.valueOf(v).hashCode()) & V = "+((Double.valueOf(v).hashCode()) & V));
-            //System.out.println("key : "+key_head);
-            if(head[key_head]==null) {head[key_head] = new headnode(v,w&cap);//System.out.println("key of "+v+" is "+key_head);
-        }
-            else{
-                if(head[key_head].n!=v){
-                    while(true) {
-                        //System.out.println("head[key_head].n = "+head[key_head].n+" key_head "+key_head+" crush!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        key_head+=(cap+1);
-                        if(head[key_head]==null){ head[key_head] = new headnode(v,w&cap);//System.out.println("key of "+v+" is "+key_head);
-                        break;}
-                        if(head[key_head].n!=v) head[key_head].add(w&cap);//System.out.println("key of "+v+" is "+key_head);break;}
-                    }
+            int key_head = (v&cap);
+            int key_head_w = (w&cap);
+            for (Head c = head[key_head];; c = c.next_head) {
+                if(c==null){
+                    Head h = new Head();
+                    h.key = v;
+                    h.sub_node = new ArrayList_29();
+                    //h.degree = 1;
+                    h.sub_node.add(w);
+                    h.next_head = head[key_head];
+                    head[key_head] = h;
+                    break;
                 }
-                else {
-                    head[key_head].add(w&cap);//System.out.println("key of "+v+" is "+key_head);
-                }
-            }
-            //(Double.valueOf(key).hashCode() & 0x7fffffff) & (b-1)
-            //adj[Double.valueOf(v).hashCode()&0x7fffffff].add(w);
-            //adj[Double.valueOf(w).hashCode()&0x7fffffff].add(v);
-        }
-        public void show(){
-            for(int i=0;i<cap+1;i++){
-                if(head[i]!=null){
-                    //System.out.println("degree of "+i+" is "+head[i].degree);
-                    adjlist current = head[i].next;
-                    while(current!=null){
-                        System.out.println(current.n);
-                        current = current.next;
-                    }
+                else if(c.key==v){
+                    if (++c.degree > maxDegree) {
+    					maxDegree = c.degree;
+    					maxDegreeNode = v;
+    				}
+                    c.sub_node.add(w);
+                    break;
                 }
             }
-        }
-        public class adjlist{
-            int n;
-            adjlist next;
-            public adjlist(int n){
-                this.n = n;
-                next = null;
+            for (Head c = head[key_head_w];; c = c.next_head) {
+                if(c==null){
+            	    Head h = new Head();
+                    h.key = w;
+                    h.sub_node = new ArrayList_29();
+                    //h.degree = 1;
+                    h.sub_node.add(v);
+                    h.next_head = head[key_head_w];
+                    head[key_head_w] = h;
+                    break;
+                }
+                else if(c.key==w){
+                    if (++c.degree > maxDegree) {
+    					maxDegree = c.degree;
+    					maxDegreeNode = w;
+    				}
+                    c.sub_node.add(v);
+                        break;
+                }
             }
         }
-        public int count(){
-            int[] visited;
-            int[] distTo;
-            int max_path=0;
-            //int max_degree=0;//,max_index=0;
-            adjlist current;
-            int w;
-            queue_29 q = new queue_29(V);
-            for(int i=0;i<V;i++){
-                if(head[i]!=null){
-                //if(head[i].degree < 3){
-                //if(degree[i]<3){
-                    //System.out.println("i = "+i);
-                    visited = new int[V];
-                    distTo = new int[V];
-                    q.add(i);
-                    //System.out.println("add "+i);
-                    visited[i]=1;
-                    distTo[i] = 0;
-                    //System.out.println("i : "+i);
-                    while(true){
-                        int v = q.remove();
-                        //System.out.println("move "+v);
-                        //System.out.println("adjList.get("+v+").size() = "+adjList.get(v).size());
-                        //for(int w : head[v].next){
-                        if(head[v]!=null){//maybe can delete------------------------------------------------------
-                            current = head[v].next;
-                            while(current!=null){
-                                w=current.n;
-                                //for(int w : adjList.get(v)){
-                                if(visited[w]<1){
-                                    q.add(w);
-                                    //System.out.println("add "+w);
-                                    visited[w] = 1;
-                                    distTo[w] = distTo[v]+1;
-                                    //System.out.println("distTo["+w+"] : "+distTo[w]);
-                                }
-                                current = current.next;
-                            }
-                        }
-                        if(q.isEmpty()){
-                            if(max_path<distTo[v]){
-                                max_path=distTo[v];
-                            }
-                            //System.out.println("max_path : "+max_path);
-                            break;
-                        }
-                    }//while
+        public Head get_head(int n){
+            for (Head c = head[n&cap]; c != null; c = c.next_head) {
+                if (c.key == n) return c;
+    		}
+    		return null;
+        }
+        int maxDepthNode;
+        int maxDepth;
+        FiniteQueue_29 q;
+        int a;
+        final int findMaxDepth() {
+            maxDepth=0;
+            q = new FiniteQueue_29(V);
 
-                //}//if(degree[i]<3)
+            Head h = get_head(maxDegreeNode);
+            h.visited_1=1;
+            //h.distTo_1=0;
+            q.reset();
+            q.add(maxDegreeNode);
+            int self_depth;
+			while (!q.empty()) {
+				a = q.remove();
+                h = get_head(a);
+				self_depth = h.distTo_1 + 1;
+				if (self_depth > maxDepth) {
+					maxDepth = self_depth;
+                    maxDepthNode = a;
+				}
+				ArrayList_29 arr = h.sub_node;
+				for (arr.read(); arr.hasNext();) {
+					int n = arr.next();
+                    h=get_head(n);
+                    if (h.visited_1<1) {
+                        h.distTo_1 = self_depth;
+                        h.visited_1=1;
+						q.add(n);
+					}
+				}
+			}
 
-                /*if(max_degree<head[i].degree){
-                    max_degree=head[i].degree ;
-                    max_index = i;
-                }*/
-                }
-                q.reset();
+            h = get_head(maxDepthNode);
+            h.visited=1;
+            //h.distTo=0;
+            q.reset();
+            q.add(maxDepthNode);
+			while (!q.empty()) {
+				a = q.remove();
+                h = get_head(a);
+				self_depth = h.distTo + 1;
+				if (self_depth > maxDepth) {
+					maxDepth = self_depth;
+                    //maxDepthNode = a;
+				}
+				ArrayList_29 arr = h.sub_node;
+				for (arr.read(); arr.hasNext();) {
+					int n = arr.next();
+                    h=get_head(n);
+                    if (h.visited<1) {
+                        h.distTo = self_depth;
+                        h.visited=1;
+						q.add(n);
+					}
+				}
             }
-            System.out.println("3 max_path : "+max_path);
-            return max_path;
-        }
-        class queue_29{
-            protected int[] queue;
-    		protected int size;
-    		protected int front = -1;
-    		protected int rear = -1;
-    		public queue_29(int size) {
-    			queue = new int[size];
-    			this.size = size;
-    		}
-    		public void add(int x) {
-    			queue[++rear] = x;
-    		}
-    		public int remove() {
-    			return queue[++front];
-    		}
-    		public boolean isEmpty() {
-    			return front==rear;
-    		}
-    		public boolean isFull() {
-    			return rear == size - 1;
-    		}
-            public void reset(){
-                front = rear = -1;
-            }
-        }
+
+
+			return maxDepth;
+		}
     }
+	class FiniteQueue_29 {
+		private int _cap;
+		private int head;
+		private int tail;
+		private int[] list;
+
+		FiniteQueue_29(int cap) {
+			this._cap = (1 << (int) (Math.log(cap) / Math.log(2) + 1)) - 1;
+			this.list = new int[_cap + 1];
+			head = 0; // dequeue
+			tail = 0; // enqueue
+		}
+        public void reset(){
+            head = 0; // dequeue
+			tail = 0; // enqueue
+        }
+		public final void add(int n) {
+			list[tail] = n;
+			tail = (tail + 1) & _cap;
+		}
+
+		public final int remove() {
+			int ret = list[head];
+			head = (head + 1) & _cap;
+			return ret;
+		}
+
+		public final boolean empty() {
+			return head == tail;
+		}
+	}
+
+	public class ArrayList_29 {
+		private int cap;
+		private int len;
+		private int[] elem;
+		private int pointer;
+
+		ArrayList_29() {
+			this.cap = 16;
+			this.len = -1;
+			this.elem = new int[cap];
+		}
+
+		public final void add(int n) {
+			if (++this.len != this.cap) {
+				this.elem[this.len] = n;
+			} else {
+				this.cap <<= 1;
+				int[] newElem = new int[this.cap];
+				for (int i = 0; i < len; i++) {
+					newElem[i] = elem[i];
+				}
+				newElem[this.len] = n;
+				this.elem = newElem;
+			}
+		}
+
+		public final void read() {
+			this.pointer = 0;
+		}
+
+		public final boolean hasNext() {
+			return pointer <= len;
+		}
+
+		public final int next() {
+			return elem[pointer++];
+		}
+	}
 }
