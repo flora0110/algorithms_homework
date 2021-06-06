@@ -1,4 +1,5 @@
 //delete crush_index
+//path compression(root,next)
 public class HW11_4108056029_1 extends GroupCounting {
     public static void main(String[] args){
         HW11_4108056029_1 test = new HW11_4108056029_1();
@@ -63,10 +64,12 @@ public class HW11_4108056029_1 extends GroupCounting {
                     }
                 }
                 //find B[i]'s root
-                while(parent[index_of_b]>0){//index_of_b has parent == is not root
-
-                    //parent[index_of_b] = parent[parent[index_of_b]];//path compression
-                    index_of_b = parent[index_of_b];
+                int root,next;
+                for(root = index_of_b;parent[root]>0;root=parent[root]);
+                while(index_of_b!=root){//index_of_b has parent == is not root
+                    next = parent[index_of_b];
+                    parent[index_of_b] = root;
+                    index_of_b = next;
                 }
                 parent[key_a] = index_of_b;
                 parent[index_of_b]--;
@@ -101,9 +104,12 @@ public class HW11_4108056029_1 extends GroupCounting {
                         }
                     }
                 }
-                while(parent[index_of_a]>0){//index_of_a has parent == index_of_a is not root
-                    //parent[index_of_a] = parent[parent[index_of_a]];//path compression
-                    index_of_a = parent[index_of_a];
+                int root,next;
+                for(root = index_of_a;parent[root]>0;root=parent[root]);
+                while(index_of_a!=root){//index_of_b has parent == is not root
+                    next = parent[index_of_a];
+                    parent[index_of_a] = root;
+                    index_of_a = next;
                 }
                 parent[key_b] = index_of_a;//link b to a
                 parent[index_of_a]--;//a's child+1
@@ -132,9 +138,12 @@ public class HW11_4108056029_1 extends GroupCounting {
                         }
                     }
                 }
-                while(parent[index_of_a]>0){//index_of_a has parent == index_of_a is not root
-                    //parent[index_of_a] = parent[parent[index_of_a]];//path compression
-                    index_of_a = parent[index_of_a];
+                int root,next;
+                for(root = index_of_a;parent[root]>0;root=parent[root]);
+                while(index_of_a!=root){//index_of_b has parent == is not root
+                    next = parent[index_of_a];
+                    parent[index_of_a] = root;
+                    index_of_a = next;
                 }
                 //get B[i]'s head 's root
                 //find b's Head's index
@@ -159,9 +168,11 @@ public class HW11_4108056029_1 extends GroupCounting {
                         }
                     }
                 }
-                while(parent[index_of_b]>0){//index_of_b has parent == head_of_b is not root
-                    //parent[index_of_b] = parent[parent[index_of_b]];//path compression
-                    index_of_b = parent[index_of_b];
+                for(root = index_of_b;parent[root]>0;root=parent[root]);
+                while(index_of_b!=root){//index_of_b has parent == is not root
+                    next = parent[index_of_b];
+                    parent[index_of_b] = root;
+                    index_of_b = next;
                 }
 
                 if(index_of_a!=index_of_b){//not same group
