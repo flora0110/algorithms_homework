@@ -1,12 +1,4 @@
 public class HW11_4108056029_5 extends GroupCounting {
-    public static void main(String[] args){
-        HW11_4108056029_5 test = new HW11_4108056029_5();
-        //String[] A = {"CCCCC","BAB","BC","C","B","D","F","G","B","B"};
-        //String[] B = {"z","C","E","D","D","E","H","H","H","qqq"};
-        String[] A = {"A","e","A","A"};
-        String[] B = {"B","f","e","g"};
-        System.out.println(test.count(A,B));
-    }
     class Head {
         String str;
         //int child;//num of child
@@ -28,8 +20,8 @@ public class HW11_4108056029_5 extends GroupCounting {
         int key_a,key_b;
         int node_num=0,group_min=0; //node_num-group_min==group num
 		for (int i=0;i<n;i++) {
-            key_a=(A[i].hashCode() & 0x7fffffff)& (cap-1);
-            key_b=(B[i].hashCode() & 0x7fffffff)& (cap-1);
+            key_a=(A[i].hashCode() & 0x7fffffff)& (cap-1)+1;
+            key_b=(B[i].hashCode() & 0x7fffffff)& (cap-1)+1;
             if(hashmap[key_a]==null && hashmap[key_b]==null){//both not in max
                 node_num+=2;//num of node +2
                 group_min++;//two node(two group) link -> num of group -1
