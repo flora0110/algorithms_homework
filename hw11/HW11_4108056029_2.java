@@ -22,7 +22,7 @@ public class HW11_4108056029_2 extends GroupCounting {
     }
     public int count(String[] A, String[] B){
         int n=A.length;
-        int cap = (1<<(int)(Math.log(n+1)/Math.log(2)+1))-1;
+        int cap = (1<<(int)(Math.log(n+1)/Math.log(2)+1));
         System.out.println("cap: "+cap);
         int len = cap<<1+1;
         Head[] hashmap = new Head[len];
@@ -32,8 +32,8 @@ public class HW11_4108056029_2 extends GroupCounting {
         int key_a,key_b;
         int node_num=0,group_min=0; //node_num-group_min==group num
 		for (int i=0;i<n;i++) {
-            key_a=((A[i].hashCode() & 0x7fffffff)& (cap))+1;//key range 1~cap
-            key_b=((B[i].hashCode() & 0x7fffffff)& (cap))+1;
+            key_a=((A[i].hashCode() & 0x7fffffff)& (cap-1))+1;//key range 1~cap
+            key_b=((B[i].hashCode() & 0x7fffffff)& (cap-1))+1;
             System.out.println((A[i].hashCode() & 0x7fffffff));
             System.out.println(((A[i].hashCode() & 0x7fffffff)& (cap)));
             System.out.println();

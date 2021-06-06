@@ -1,3 +1,4 @@
+//parent[], child[], parent need initial, path compression
 public class HW11_4108056029_4 extends GroupCounting {
     public static void main(String[] args){
         HW11_4108056029_4 test = new HW11_4108056029_4();
@@ -19,7 +20,7 @@ public class HW11_4108056029_4 extends GroupCounting {
     }
     public int count(String[] A, String[] B){
         int n=A.length;
-        int cap = (1<<(int)(Math.log(n+1)/Math.log(2)+1))-1;
+        int cap = (1<<(int)(Math.log(n+1)/Math.log(2)+1));
         Head[] hashmap = new Head[cap<<1+1];
         int[] parent = new int[cap<<1+1];//0: this node not exsit, 1~n: n's child
         int[] child = new int[cap<<1+1];
@@ -27,15 +28,15 @@ public class HW11_4108056029_4 extends GroupCounting {
         int key_a,key_b;
         int node_num=0,group_min=0; //node_num-group_min==group num
 		for (int i=0;i<n;i++) {
-            key_a=(A[i].hashCode() & 0x7fffffff)& (cap-1)+1;//key range 1~cap
-            key_b=(B[i].hashCode() & 0x7fffffff)& (cap-1)+1;
+            key_a=((A[i].hashCode() & 0x7fffffff)& (cap-1))+1;//key range 1~cap
+            key_b=((B[i].hashCode() & 0x7fffffff)& (cap-1))+1;
             if(hashmap[key_a]==null && hashmap[key_b]==null){//both not in map //-> parent[key]==0
                 node_num+=2;//num of node +2
                 group_min++;//two node(two group) link -> num of group -1
                 hashmap[key_a] = new Head(A[i]);
                 hashmap[key_b] = new Head(B[i]);
                 parent[key_a] = key_b;//link A[i] to B[i]
-                parent[key_b] = key_b;
+                parent[key_b] = key_b;//initial
                 child[key_b]=1;//node B[i] has one child
             }
             else if(hashmap[key_a]==null) {//key_a's place is empty -> A[i] is not in map
@@ -86,12 +87,9 @@ public class HW11_4108056029_4 extends GroupCounting {
                     while(true){
                         if(head_of_a.next_head==null){//head_of_a now is point at tail
                             head_of_a.next_head = new Head(A[i]);
-                            //head_of_a = head_of_a.next_head;//point to right head of B[i]
                             head_of_a.next_head.index=cap+(++node_num);
                             index_of_a=cap+node_num;
                             parent[index_of_a]=index_of_a;//initial
-                            //head_of_a.index=cap+node_num;
-                            //node_num++;//A[i] is not in map ,num of node +1
                             break;
                         }
                         head_of_a = head_of_a.next_head;
@@ -119,11 +117,8 @@ public class HW11_4108056029_4 extends GroupCounting {
                         if(head_of_a.next_head==null){//head_of_a now is point at tail
                             head_of_a.next_head = new Head(A[i]);
                             head_of_a.next_head.index=cap+(++node_num);
-                            //head_of_a = head_of_a.next_head;//point to right head of B[i]
                             index_of_a=cap+node_num;
                             parent[index_of_a]=index_of_a;//initial
-                            //head_of_a.index=cap+node_num;
-                            //node_num++;//A[i] is not in map ,num of node +1
                             break;
                         }
                         head_of_a = head_of_a.next_head;
@@ -147,11 +142,8 @@ public class HW11_4108056029_4 extends GroupCounting {
                         if(head_of_b.next_head==null){//head_of_b now is point at tail
                             head_of_b.next_head = new Head(B[i]);
                             head_of_b.next_head.index=cap+(++node_num);
-                            //head_of_b = head_of_b.next_head;//point to right head of B[i]
                             index_of_b=cap+node_num;
                             parent[index_of_b]=index_of_b;//initial
-                            //head_of_b.index=cap+node_num;
-                            //node_num++;//B[i] is not in map ,num of node +1
                             break;
                         }
                         head_of_b = head_of_b.next_head;
@@ -170,14 +162,10 @@ public class HW11_4108056029_4 extends GroupCounting {
                     if(child[index_of_a]>child[index_of_b]){//weighted
                         child[index_of_a]+=(child[index_of_b]+1);
                         parent[index_of_b] = index_of_a;
-                        //head_of_a.child +=(head_of_b.child+1);//B[i]'s child + B[i] itself
-                        //head_of_b.parent = head_of_a;//link B[i] to A[i]
                     }
                     else{
                         child[index_of_b]+=(child[index_of_a]+1);
                         parent[index_of_a] = index_of_b;
-                        //head_of_b.child +=(head_of_a.child+1);
-                        //head_of_a.parent = head_of_b;
                     }
                     group_min++;//link two group -> num of group-1
                 }
