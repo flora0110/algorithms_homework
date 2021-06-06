@@ -61,8 +61,8 @@ public class HW11_4108056029_5 extends GroupCounting {
                     }
                 }
                 while(parent[index_of_b]>0){//index_of_b has parent == head_of_b is not root
-                    parent[index_of_b] = parent[parent[index_of_b]];//path compression
-                    //index_of_b = parent[index_of_b];
+                    //parent[index_of_b] = parent[parent[index_of_b]];//path compression
+                    index_of_b = parent[index_of_b];
                 }
                 parent[key_a] = index_of_b;
                 parent[index_of_b]--;
@@ -97,8 +97,8 @@ public class HW11_4108056029_5 extends GroupCounting {
                     }
                 }
                 while(parent[index_of_a]>0){//index_of_a has parent == index_of_a is not root
-                    parent[index_of_a] = parent[parent[index_of_a]];//path compression
-                    //index_of_a = parent[index_of_a];
+                    //parent[index_of_a] = parent[parent[index_of_a]];//path compression
+                    index_of_a = parent[index_of_a];
                 }
                 parent[key_b] = index_of_a;//link b to a
                 parent[index_of_a]--;//a's child+1
@@ -127,8 +127,8 @@ public class HW11_4108056029_5 extends GroupCounting {
                     }
                 }
                 while(parent[index_of_a]>0){//index_of_a has parent == index_of_a is not root
-                    parent[index_of_a] = parent[parent[index_of_a]];//path compression
-                    //index_of_a = parent[index_of_a];
+                    //parent[index_of_a] = parent[parent[index_of_a]];//path compression
+                    index_of_a = parent[index_of_a];
                 }
                 //get B[i]'s head 's root
                 Head head_of_b = hashmap[key_b];
@@ -153,8 +153,8 @@ public class HW11_4108056029_5 extends GroupCounting {
                     }
                 }
                 while(parent[index_of_b]>0){//index_of_b has parent == head_of_b is not root
-                    parent[index_of_b] = parent[parent[index_of_b]];//path compression
-                    //index_of_b = parent[index_of_b];
+                    //parent[index_of_b] = parent[parent[index_of_b]];//path compression
+                    index_of_b = parent[index_of_b];
                 }
 
                 if(index_of_a!=index_of_b){//not same group
