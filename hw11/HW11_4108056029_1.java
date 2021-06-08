@@ -7,29 +7,40 @@ public class HW11_4108056029_1 extends GroupCounting {
         String[] B = {"z","C","E","D","D","E","H","H","H","qqq"};
         //String[] A = {"A","e","A","A"};
         //String[] B = {"B","f","e","g"};
-        //String[] A = {"C","e","C","C","C"};
-        //String[] B = {"B","f","e","g","J"};
+        //String[] A = {"C","e","C","C","C","C"};
+        //String[] B = {"B","f","e","g","J","B"};
         System.out.println(test.count(A,B));
     }
     class Head {
         String str;
         int index;
-        Head next_head;//same key
+        Head bigger_head;
+        Head smaller_head;
+        //Head next_head;//same key
         public Head(String str){
             this.str = str;
         }
     }
     public int count(String[] A, String[] B){
         int n=A.length;
-        int cap = (1<<(int)(Math.log(n+1)/Math.log(2)+1));
-        Head[] hashmap = new Head[cap<<1+1];
-        int[] parent = new int[cap<<1+1];//-1~-n: has n child, 0: this node not exsit, 1~n: n's child
+        int cap = n - 1;
+        cap |= cap >>> 1;
+        cap |= cap >>> 2;
+        cap |= cap >>> 4;
+        cap |= cap >>> 8;
+        cap |= cap >>> 16;
+        //System.out.println("cap"+cap);
+        int len = (int)(cap*1.5);
+        Head[] hashmap = new Head[len];
+        int[] parent = new int[len];//-1~-n: has n child, 0: this node not exsit, 1~n: n's child
 
         int key_a,key_b;
         int node_num=0,group_min=0; //node_num-group_min==group num
 		for (int i=0;i<n;i++) {
-            key_a=((A[i].hashCode() & 0x7fffffff)& (cap-1))+1;//key range 1~cap
-            key_b=((B[i].hashCode() & 0x7fffffff)& (cap-1))+1;
+            key_a=((A[i].hashCode() & 0x7fffffff)& (cap))+1;//key range 1~cap
+            key_b=((B[i].hashCode() & 0x7fffffff)& (cap))+1;
+            //System.out.println("A: "+A[i]+" key_a="+key_a);
+            //System.out.println("B: "+B[i]+" key_b="+key_b);
             if(hashmap[key_a]==null && hashmap[key_b]==null){//both not in map //-> parent[key]==0
                 node_num+=2;//num of node +2
                 group_min++;//two node(two group) link -> num of group -1
@@ -42,22 +53,37 @@ public class HW11_4108056029_1 extends GroupCounting {
                 node_num++;//num of node +1
                 group_min++;//link a node to a group == link two group -> num of group-1
                 hashmap[key_a] = new Head(A[i]);
-
                 //get B[i]'s head's root
                 //find b's Head's index
                 int index_of_b;
-                if(hashmap[key_b].str.equals(B[i])) index_of_b=key_b;
+                //if(hashmap[key_b].str.equals(B[i])) index_of_b=key_b;
+                int comp=hashmap[key_b].str.compareTo(B[i]);
+                if(comp==0) index_of_b=key_b;
                 else{
                     Head head_of_b = hashmap[key_b];
                     while(true){
-                        if(head_of_b.next_head==null){//head_of_b now is point at tail
-                            head_of_b.next_head = new Head(B[i]);       //B[i] is not in map ,num of node +1
-                            head_of_b.next_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
-                            index_of_b = cap+node_num;
-                            break;
+                        //System.out.println("compare"+head_of_b.str+" and "+B[i]+"=="+comp);
+                        if(comp>0){
+                            if(head_of_b.bigger_head==null){
+                                head_of_b.bigger_head = new Head(B[i]);       //B[i] is not in map ,num of node +1
+                                head_of_b.bigger_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_b = cap+node_num;
+                                break;
+                            }
+                            head_of_b = head_of_b.bigger_head;
                         }
-                        head_of_b = head_of_b.next_head;
-                        if(head_of_b.str.equals(B[i])) {
+                        else{
+                            if(head_of_b.smaller_head==null){
+                                head_of_b.smaller_head = new Head(B[i]);       //B[i] is not in map ,num of node +1
+                                head_of_b.smaller_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_b = cap+node_num;
+                                break;
+                            }
+                            head_of_b = head_of_b.smaller_head;
+                        }
+                        //head_of_b = head_of_b.next_head;
+                        comp=head_of_b.str.compareTo(B[i]);
+                        if(comp==0) {
                             index_of_b=head_of_b.index;//head_of_b is B[i]'s Head, its index is index_of_b
                             break;
                         }
@@ -84,22 +110,33 @@ public class HW11_4108056029_1 extends GroupCounting {
                 //get a's head's root
                 //find a's Head's index
                 int index_of_a;
-                if(hashmap[key_a].str.equals(A[i])) index_of_a=key_a;
+                int comp=hashmap[key_a].str.compareTo(A[i]);
+                if(comp==0) index_of_a=key_a;
                 else{
                     Head head_of_a = hashmap[key_a];
                     while(true){
-                        if(head_of_a.next_head==null){//head_of_a now is point at tail
-                            head_of_a.next_head = new Head(A[i]);
-                            //head_of_a = head_of_a.next_head;//point to right head of B[i]
-                            head_of_a.next_head.index=cap+(++node_num);
-                            index_of_a=cap+node_num;
-                            //head_of_a.index=cap+node_num;
-                            //node_num++;//A[i] is not in map ,num of node +1
-                            break;
+                        //System.out.println("compare"+head_of_a.str+" and "+A[i]+"=="+comp);
+                        if(comp>0){
+                            if(head_of_a.bigger_head==null){
+                                head_of_a.bigger_head = new Head(A[i]);       //B[i] is not in map ,num of node +1
+                                head_of_a.bigger_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_a = cap+node_num;
+                                break;
+                            }
+                            head_of_a = head_of_a.bigger_head;
                         }
-                        head_of_a = head_of_a.next_head;
-                        if(head_of_a.str.equals(A[i])) {
-                            index_of_a=head_of_a.index;
+                        else{
+                            if(head_of_a.smaller_head==null){
+                                head_of_a.smaller_head = new Head(A[i]);       //B[i] is not in map ,num of node +1
+                                head_of_a.smaller_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_a = cap+node_num;
+                                break;
+                            }
+                            head_of_a= head_of_a.smaller_head;
+                        }
+                        comp=head_of_a.str.compareTo(A[i]);
+                        if(comp==0) {
+                            index_of_a=head_of_a.index;//head_of_b is A[i]'s Head, its index is index_of_a
                             break;
                         }
                     }
@@ -118,22 +155,33 @@ public class HW11_4108056029_1 extends GroupCounting {
                 //get A[i]'s head 's root
                 //find a's Head's index
                 int index_of_a;
-                if(hashmap[key_a].str.equals(A[i])) index_of_a=key_a;
+                int comp=hashmap[key_a].str.compareTo(A[i]);
+                if(comp==0) index_of_a=key_a;
                 else{
                     Head head_of_a = hashmap[key_a];
                     while(true){
-                        if(head_of_a.next_head==null){//head_of_a now is point at tail
-                            head_of_a.next_head = new Head(A[i]);
-                            head_of_a.next_head.index=cap+(++node_num);
-                            //head_of_a = head_of_a.next_head;//point to right head of B[i]
-                            index_of_a=cap+node_num;
-                            //head_of_a.index=cap+node_num;
-                            //node_num++;//A[i] is not in map ,num of node +1
-                            break;
+                        //System.out.println("compare"+head_of_a.str+" and "+A[i]+"=="+comp);
+                        if(comp>0){
+                            if(head_of_a.bigger_head==null){
+                                head_of_a.bigger_head = new Head(A[i]);       //B[i] is not in map ,num of node +1
+                                head_of_a.bigger_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_a = cap+node_num;
+                                break;
+                            }
+                            head_of_a = head_of_a.bigger_head;
                         }
-                        head_of_a = head_of_a.next_head;
-                        if(head_of_a.str.equals(A[i])) {
-                            index_of_a=head_of_a.index;
+                        else{
+                            if(head_of_a.smaller_head==null){
+                                head_of_a.smaller_head = new Head(A[i]);       //B[i] is not in map ,num of node +1
+                                head_of_a.smaller_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_a = cap+node_num;
+                                break;
+                            }
+                            head_of_a= head_of_a.smaller_head;
+                        }
+                        comp=head_of_a.str.compareTo(A[i]);
+                        if(comp==0) {
+                            index_of_a=head_of_a.index;//head_of_b is A[i]'s Head, its index is index_of_a
                             break;
                         }
                     }
@@ -148,22 +196,33 @@ public class HW11_4108056029_1 extends GroupCounting {
                 //get B[i]'s head 's root
                 //find b's Head's index
                 int index_of_b;
-                if(hashmap[key_b].str.equals(B[i])) index_of_b=key_b;
+                comp=hashmap[key_b].str.compareTo(B[i]);
+                if(comp==0) index_of_b=key_b;
                 else{
                     Head head_of_b = hashmap[key_b];
                     while(true){
-                        if(head_of_b.next_head==null){//head_of_b now is point at tail
-                            head_of_b.next_head = new Head(B[i]);
-                            head_of_b.next_head.index=cap+(++node_num);
-                            //head_of_b = head_of_b.next_head;//point to right head of B[i]
-                            index_of_b=cap+node_num;
-                            //head_of_b.index=cap+node_num;
-                            //node_num++;//B[i] is not in map ,num of node +1
-                            break;
+                        //System.out.println("compare"+head_of_b.str+" and "+B[i]+"=="+comp);
+                        if(comp>0){
+                            if(head_of_b.bigger_head==null){
+                                head_of_b.bigger_head = new Head(B[i]);       //B[i] is not in map ,num of node +1
+                                head_of_b.bigger_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_b = cap+node_num;
+                                break;
+                            }
+                            head_of_b = head_of_b.bigger_head;
                         }
-                        head_of_b = head_of_b.next_head;
-                        if(head_of_b.str.equals(B[i])) {
-                            index_of_b=head_of_b.index;
+                        else{
+                            if(head_of_b.smaller_head==null){
+                                head_of_b.smaller_head = new Head(B[i]);       //B[i] is not in map ,num of node +1
+                                head_of_b.smaller_head.index=cap+(++node_num);//this index is crush -> give B[i] a new index
+                                index_of_b = cap+node_num;
+                                break;
+                            }
+                            head_of_b = head_of_b.smaller_head;
+                        }
+                        comp=head_of_b.str.compareTo(B[i]);
+                        if(comp==0) {
+                            index_of_b=head_of_b.index;//head_of_b is B[i]'s Head, its index is index_of_b
                             break;
                         }
                     }
